@@ -24,4 +24,7 @@ hs_err_pid*
 replay_pid*
 
 .DS_Store
+
+# Frontend
 node_modules/
+package-lock.json
