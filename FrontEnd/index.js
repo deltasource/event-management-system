@@ -1,21 +1,51 @@
+/**
+ * This file is responsible for building a node.js
+ */
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const PORT = 3000;
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
+const server = http.createServer((request, response) => {
+    let filePath = path.join(__dirname, request.url === '/' ? 'index.html' : request.url);
+    
+    const extname = path.extname(filePath);
+    let contentType = 'text/html';
 
-    fs.readFile(path.join(__dirname, 'index.html'), 'utf-8', (err, data) => {
+    switch (extname) {
+        case '.js':
+            contentType = 'application/javascript';
+            break;
+        case '.css':
+            contentType = 'text/css';
+            break;
+        case '.json':
+            contentType = 'application/json';
+            break;
+        case '.png':
+            contentType = 'image/png';
+            break;
+        case '.jpg':
+            contentType = 'image/jpeg';
+            break;
+    }
+
+    fs.readFile(filePath, (err, content) => {
         if (err) {
-            res.writeHead(500, { 'Content-Type': 'text/plain' });
-            res.end('Error loading the HTML page.');
+            if (err.code === 'ENOENT') {
+                response.writeHead(404, { 'Content-Type': 'text/plain' });
+                response.end('404 Not Found');
+            } else {
+                response.writeHead(500, { 'Content-Type': 'text/plain' });
+                response.end('Internal Server Error');
+            }
         } else {
-            res.end(data);
+            response.writeHead(200, { 'Content-Type': contentType });
+            response.end(content, 'utf-8');
         }
     });
 });
 
+const PORT = 3000;
 server.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
 });
