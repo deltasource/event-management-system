@@ -1,6 +1,3 @@
-/**
- * This file is responsible for building a node.js
- */
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
