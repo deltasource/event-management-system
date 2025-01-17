@@ -1,8 +1,10 @@
-package eu.deltasource.event_system.repository;
+package eu.deltasource.event_system.utils;
 
 import eu.deltasource.event_system.model.Event;
+import eu.deltasource.event_system.repository.EventRepository;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class InitInMemoryDataBaseInit {
     private final EventRepository eventRepository;
@@ -12,8 +14,9 @@ public class InitInMemoryDataBaseInit {
     }
 
     public void initInMemoryEvents(){
-        eventRepository.save(new Event(1L, "Event1", LocalDateTime.now().plusDays(5), 12));
-        eventRepository.save(new Event(2L, "Event2", LocalDateTime.now().plusDays(15), 20));
-        eventRepository.save(new Event(3L, "Event3", LocalDateTime.now().plusDays(20), 32));
+        LocalDateTime futureEventDate = LocalDateTime.now().plusDays(5);
+        eventRepository.save(new Event(UUID.randomUUID(), "Event1", LocalDateTime.now().plusDays(5), 12));
+        eventRepository.save(new Event(UUID.randomUUID(), "Event2", LocalDateTime.now().plusDays(15), 20));
+        eventRepository.save(new Event(UUID.randomUUID(), "Event3", LocalDateTime.now().plusDays(20), 32));
     }
 }

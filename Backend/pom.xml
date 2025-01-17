@@ -11,8 +11,8 @@
 	<groupId>eu.deltasource</groupId>
 	<artifactId>event-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>event-system</name>
-	<description>Demo project for Spring Boot</description>
+	<name>event-system-backend</name>
+	<description>This project serves as the backend for Event Management System</description>
 	<url/>
 	<licenses>
 		<license/>
