@@ -28,3 +28,11 @@ replay_pid*
 # Frontend
 node_modules/
 package-lock.json
+.idea/
+
+#Backend
+Backend/mvnw
+Backend/mvnw.cmd
+Backend/.mvn
+Backend/target
+Backend/HELP.md
