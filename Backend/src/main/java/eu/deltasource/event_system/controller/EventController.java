@@ -2,7 +2,6 @@ package eu.deltasource.event_system.controller;
 
 import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.service.EventService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +16,8 @@ public class EventController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Event>> showAllEvents() {
+    public List<Event> showAllEvents() {
         List<Event> allEvents = eventService.getAllEvents();
-        return ResponseEntity.ok(allEvents);
+        return allEvents;
     }
 }

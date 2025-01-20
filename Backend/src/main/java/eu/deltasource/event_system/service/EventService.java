@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class, responsible for the business logic connected
+ * with the events
+ */
 @Service
 public class EventService {
     private final EventRepository eventRepository;

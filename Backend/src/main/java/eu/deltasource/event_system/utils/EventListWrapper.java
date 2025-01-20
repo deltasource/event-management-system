@@ -8,7 +8,10 @@ import java.util.List;
  * A helper class that wraps the fetched data from a .json file
  */
 public class EventListWrapper {
-    private final List<Event> events;
+    private List<Event> events;
+
+    public EventListWrapper() {
+    }
 
     public EventListWrapper(List<Event> events) {
         this.events = events;
@@ -16,5 +19,9 @@ public class EventListWrapper {
 
     public List<Event> getEvents() {
         return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }

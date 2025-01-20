@@ -8,20 +8,20 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Class which is responsible for initializing the in-memory database
- * after the project is started
+ * Class which is responsible for loading events, fetched
+ * from a .json file, in the in-memory database
  */
 @Component
-public class InMemoryDatabaseInitializer {
+public class EventDataLoader {
     private final EventRepository eventRepository;
     private final ObjectMapper objectMapper;
 
-    public InMemoryDatabaseInitializer(EventRepository eventRepository, ObjectMapper objectMapper) {
+    public EventDataLoader(EventRepository eventRepository, ObjectMapper objectMapper) {
         this.eventRepository = eventRepository;
         this.objectMapper = objectMapper;
     }
 
-    public void initInMemoryEvents() throws IOException {
+    public void loadEvents() throws IOException {
         try {
             File jsonFile = new File("Backend/src/main/resources/static/get-events.json");
             EventListWrapper wrapper = objectMapper.readValue(jsonFile, EventListWrapper.class);

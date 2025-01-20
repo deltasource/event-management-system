@@ -19,13 +19,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class InMemoryDatabaseInitializerTest {
+public class EventDataLoaderTest {
     @Mock
     private EventRepository eventRepository;
     @Mock
     private ObjectMapper objectMapper;
     @InjectMocks
-    private InMemoryDatabaseInitializer inMemoryDatabaseInitializer;
+    private EventDataLoader inMemoryDatabaseInitializer;
 
     @Test
     public void testInitInMemoryEvents_whenFileIsFound_savesToRepository() throws IOException {
@@ -36,7 +36,7 @@ public class InMemoryDatabaseInitializerTest {
                 .thenReturn(wrapper);
 
         // When
-        inMemoryDatabaseInitializer.initInMemoryEvents();
+        inMemoryDatabaseInitializer.loadEvents();
 
         // Then
         verify(eventRepository, times(1)).save(event);
@@ -52,11 +52,10 @@ public class InMemoryDatabaseInitializerTest {
 
         // When
         assertThrows(IOException.class, () -> {
-            inMemoryDatabaseInitializer.initInMemoryEvents();
+            inMemoryDatabaseInitializer.loadEvents();
         });
 
         // Then
         verify(eventRepository, times(0)).save(event);
     }
-
 }

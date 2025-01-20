@@ -1,12 +1,14 @@
 package eu.deltasource.event_system.repository;
 
 import eu.deltasource.event_system.model.Event;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-@Repository
-public class EventRepository implements eu.deltasource.event_system.repository.Repository<Event> {
+@Component
+public class EventRepository implements BaseRepository<Event> {
     private final Map<UUID, Event> events;
 
     public EventRepository(Map<UUID, Event> events) {
