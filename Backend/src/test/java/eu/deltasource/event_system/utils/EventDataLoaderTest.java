@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class EventDataLoaderTest {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", null, "Venue", 100, "Organizer", 20.0);
         EventListDto wrapper = new EventListDto(List.of(event));
-        when(objectMapper.readValue(any(File.class), eq(EventListDto.class)))
+        when(objectMapper.readValue(any(InputStream.class), eq(EventListDto.class)))
                 .thenReturn(wrapper);
 
         //When
@@ -48,7 +49,7 @@ public class EventDataLoaderTest {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", null, "Venue", 100, "Organizer", 20.0);
         EventListDto wrapper = new EventListDto(List.of(event));
-        when(objectMapper.readValue(any(File.class), eq(EventListDto.class)))
+        when(objectMapper.readValue(any(InputStream.class), eq(EventListDto.class)))
                 .thenThrow(new IOException());
 
         //When

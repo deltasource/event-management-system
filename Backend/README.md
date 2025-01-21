@@ -17,9 +17,12 @@ You can use the command: 'mvn clean install'.
 This will clean up any previous builds, download all required dependencies,
 and package the project into an executable .jar file.
 
-To run the whole project:
+Build and run Backend:
 ```bash
-cd Backend && mvn clean install && java -jar target/event-system-0.0.1-SNAPSHOT.jar
+mvn clean install && mvn spring-boot:run
+```
+Build and run Frontend:
+```bash
 cd ../Frontend && npm install && node index.js
 ```
 `

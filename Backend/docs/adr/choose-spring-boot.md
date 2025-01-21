@@ -1,7 +1,10 @@
 # Architecture Decision Record (ADR) - Choice of Spring Boot as backend framework
 
 ## Status
-- **Accepted**
+- **Accepted** 
+
+by:
+**Dimitar Stoyanov** (GitHub - dimitarstoyanov95) and **Anton Urdzhanov** (GitHub - AntonUrdzhanov)
 
 ## Context
 The backend for the Event Management System project will be developed in Java. The chosen framework needs to provide:
@@ -26,5 +29,3 @@ may introduce unnecessary complexity and overhead.
 While Spring Boot may introduce some complexity, particularly in a smaller or simpler application, the long-term benefits—such integrated security, easier maintenance, and enhanced productivity—outweigh the initial trade-offs.
 The need for a secure, scalable, and easily maintainable backend for the Event Management System, which could evolve into a more complex system over time, makes Spring Boot an ideal choice.
 
-## History
-- **Accepted** by: **Dimitar Stoyanov** (GitHub - dimitarstoyanov95)
