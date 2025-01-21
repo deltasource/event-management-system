@@ -1,0 +1,34 @@
+{
+  "events": [
+    {
+      "id": "b14e6871-8d58-4d92-9a84-84ab820e33d5",
+      "name": "Botev Plovdiv - Lokomotiv Plovdiv",
+      "dateTime": "2023-06-30T19:00:00",
+      "venue": "Hristo Botev stadium",
+      "category": "sport",
+      "ticketPrice": 15.0,
+      "maxCapacity": 30000,
+      "organizerDetails": "Botev Plovdiv Football Club"
+    },
+    {
+      "id": "25f9f04a-60a5-4be2-a951-9efc9e772f42",
+      "name": "D2 in Plovdiv",
+      "dateTime": "2023-05-01T20:00:00",
+      "venue": "Plovdiv Event Center",
+      "category": "concert",
+      "ticketPrice": 20.0,
+      "maxCapacity": 5000,
+      "organizerDetails": "D2 Band and Plovdiv Event Center"
+    },
+    {
+      "id": "f43b7566-6f53-4041-8e63-1b4cb4106018",
+      "name": "Friday 13th",
+      "dateTime": "2023-04-25T21:00:00",
+      "venue": "Cultural center 'Sofia'",
+      "category": "comedy",
+      "ticketPrice": 18.0,
+      "maxCapacity": 800,
+      "organizerDetails": "Sofia Comedy Productions"
+    }
+  ]
+}
