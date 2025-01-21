@@ -1,11 +1,13 @@
 package eu.deltasource.event_system.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.deltasource.event_system.dto.EventListDto;
 import eu.deltasource.event_system.repository.EventRepository;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Class which is responsible for loading events, fetched
@@ -23,9 +25,11 @@ public class EventDataLoader {
 
     public void loadEvents() throws IOException {
         try {
-            File jsonFile = new File("Backend/src/main/resources/static/get-events.json");
-            EventListWrapper wrapper = objectMapper.readValue(jsonFile, EventListWrapper.class);
-            wrapper.getEvents().forEach(eventRepository::save);
+            ClassPathResource resource = new ClassPathResource("static/get-events.json");
+            InputStream inputStream = resource.getInputStream();
+
+            EventListDto fetchedEvents = objectMapper.readValue(inputStream, EventListDto.class);
+            fetchedEvents.events().forEach(eventRepository::save);
         } catch (IOException e) {
             throw new IOException();
         }

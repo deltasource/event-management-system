@@ -19,7 +19,6 @@ public class EventService {
     }
 
     public List<Event> getAllEvents() {
-        List<Event> allEvents = eventRepository.getAll();
-        return allEvents;
+        return eventRepository.getAll();
     }
 }

@@ -1,4 +1,4 @@
-# Event Management Backend
+`# Event Management Backend
 
 This project is the backend part of the general Event Management System project.
 It provides REST APIs for managing events, which you can access once the application
@@ -17,3 +17,9 @@ You can use the command: 'mvn clean install'.
 This will clean up any previous builds, download all required dependencies,
 and package the project into an executable .jar file.
 
+To run the whole project:
+```bash
+cd Backend && mvn clean install && java -jar target/event-system-0.0.1-SNAPSHOT.jar
+cd ../Frontend && npm install && node index.js
+```
+`

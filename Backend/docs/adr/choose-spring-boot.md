@@ -4,16 +4,14 @@
 - **Accepted**
 
 ## Context
-We are building the backend part for Event Management System project, which should be written on Java.
-The framework must be easy of setup, have easy integration with databases, provide security and testing frameworks.
+The backend for the Event Management System project will be developed in Java. The chosen framework needs to provide:
 
+An easy setup process,
+Efficient integration with databases,
+Robust security mechanisms,
+Reliable testing frameworks.
 ## Decision
-We have decided to use Spring Boot as the framework for this application.
-Spring Boot provides a set of production-ready features that allow us to develop and deploy applications quickly with minimal configuration. 
-Its built-in defaults for things like embedded servers (Tomcat, Jetty, etc.), which simplify the setup process.
-Spring Boot is a part of the larger Spring ecosystem, which includes a wide variety of tools and libraries. 
-This makes it easy to integrate with other Spring modules like Spring Security (for authentication and authorization) and
-Spring Data (for database access).
+Spring Boot has been chosen as the backend framework for the application. It provides a set of production-ready features that enable rapid development with minimal configuration. Spring Boot is part of the broader Spring ecosystem, which includes a variety of tools and libraries, allowing for easy integration with other Spring modules such as Spring Security (for authentication and authorization) and Spring Data (for database access).
 
 ## Consequences
 **Benefits**
@@ -25,3 +23,8 @@ Spring Data (for database access).
 - If you're building a lightweight application with minimal requirements, the full power of Spring Boot
 may introduce unnecessary complexity and overhead.
 
+While Spring Boot may introduce some complexity, particularly in a smaller or simpler application, the long-term benefits—such integrated security, easier maintenance, and enhanced productivity—outweigh the initial trade-offs.
+The need for a secure, scalable, and easily maintainable backend for the Event Management System, which could evolve into a more complex system over time, makes Spring Boot an ideal choice.
+
+## History
+- **Accepted** by: **Dimitar Stoyanov** (GitHub - dimitarstoyanov95)

@@ -1,12 +1,9 @@
 package eu.deltasource.event_system;
 
-import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.service.EventService;
 import eu.deltasource.event_system.utils.EventDataLoader;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
@@ -21,7 +18,5 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         eventDataLoader.loadEvents();
-        List<Event> allEvents = eventService.getAllEvents();
-        return;
     }
 }

@@ -1,6 +1,7 @@
 package eu.deltasource.event_system.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.deltasource.event_system.dto.EventListDto;
 import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.repository.EventRepository;
 import org.junit.jupiter.api.Test;
@@ -31,14 +32,14 @@ public class EventDataLoaderTest {
     public void testInitInMemoryEvents_whenFileIsFound_savesToRepository() throws IOException {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", null, "Venue", 100, "Organizer", 20.0);
-        EventListWrapper wrapper = new EventListWrapper(List.of(event));
-        when(objectMapper.readValue(any(File.class), eq(EventListWrapper.class)))
+        EventListDto wrapper = new EventListDto(List.of(event));
+        when(objectMapper.readValue(any(File.class), eq(EventListDto.class)))
                 .thenReturn(wrapper);
 
-        // When
+        //When
         inMemoryDatabaseInitializer.loadEvents();
 
-        // Then
+        //Then
         verify(eventRepository, times(1)).save(event);
     }
 
@@ -46,16 +47,16 @@ public class EventDataLoaderTest {
     public void testInitInMemoryEvents_whenFileNotFound_throwsException() throws IOException {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", null, "Venue", 100, "Organizer", 20.0);
-        EventListWrapper wrapper = new EventListWrapper(List.of(event));
-        when(objectMapper.readValue(any(File.class), eq(EventListWrapper.class)))
+        EventListDto wrapper = new EventListDto(List.of(event));
+        when(objectMapper.readValue(any(File.class), eq(EventListDto.class)))
                 .thenThrow(new IOException());
 
-        // When
+        //When
         assertThrows(IOException.class, () -> {
             inMemoryDatabaseInitializer.loadEvents();
         });
 
-        // Then
+        //Then
         verify(eventRepository, times(0)).save(event);
     }
 }
