@@ -16,6 +16,7 @@
     <properties>
         <java.version>17</java.version>
         <jackson.version>2.17.2</jackson.version>
+        <event-mapper-version>1.0-SNAPSHOT</event-mapper-version>
     </properties>
     <dependencies>
         <dependency>
@@ -33,6 +34,12 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.deltasource</groupId>
+            <artifactId>custom-event-mapper</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
