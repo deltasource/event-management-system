@@ -1,4 +1,4 @@
-`# Event Management Backend
+# Event Management Backend
 
 This project is the backend part of the general Event Management System project.
 It provides REST APIs for managing events, which you can access once the application
@@ -17,12 +17,15 @@ You can use the command: 'mvn clean install'.
 This will clean up any previous builds, download all required dependencies,
 and package the project into an executable .jar file.
 
+Build the Customer Mapper project:
+```bash
+cd ../CustomerMapper && mvn clean install
+```
 Build and run Backend:
 ```bash
-mvn clean install && mvn spring-boot:run
+cd ../Backend && mvn clean install && mvn spring-boot:run
 ```
 Build and run Frontend:
 ```bash
 cd ../Frontend && npm install && node index.js
 ```
-`

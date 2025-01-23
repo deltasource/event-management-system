@@ -30,5 +30,4 @@ public class EventMapper {
                 .map(eventDto -> objectMapper.convertValue(eventDto, targetClass))
                 .toList();
     }
-
 }

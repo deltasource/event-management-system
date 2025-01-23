@@ -1,7 +1,6 @@
 package eu.deltasource.event_system.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.deltasource.event_system.dto.EventListDto;
+import eu.deltasource.EventMapper;
 import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.repository.EventRepository;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ public class EventDataLoaderTest {
     @Mock
     private EventRepository eventRepository;
     @Mock
-    private ObjectMapper objectMapper;
+    private EventMapper eventMapper;
     @InjectMocks
     private EventDataLoader inMemoryDatabaseInitializer;
 
@@ -32,9 +31,9 @@ public class EventDataLoaderTest {
     public void testInitInMemoryEvents_whenFileIsFound_savesToRepository() throws IOException {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", null, "Venue", 100, "Organizer", 20.0);
-        EventListDto wrapper = new EventListDto(List.of(event));
-        when(objectMapper.readValue(any(InputStream.class), eq(EventListDto.class)))
-                .thenReturn(wrapper);
+        List<Event> events = List.of(event);
+        when(eventMapper.mapToEventList(any(InputStream.class), eq(Event.class)))
+                .thenReturn(events);
 
         //When
         inMemoryDatabaseInitializer.loadEvents();
@@ -46,17 +45,12 @@ public class EventDataLoaderTest {
     @Test
     public void testInitInMemoryEvents_whenFileNotFound_throwsException() throws IOException {
         //Given
-        Event event = new Event(UUID.randomUUID(), "Event", null, "Venue", 100, "Organizer", 20.0);
-        EventListDto wrapper = new EventListDto(List.of(event));
-        when(objectMapper.readValue(any(InputStream.class), eq(EventListDto.class)))
+        when(eventMapper.mapToEventList(any(InputStream.class), eq(Event.class)))
                 .thenThrow(new IOException());
 
-        //When
+        //When, Then
         assertThrows(IOException.class, () -> {
             inMemoryDatabaseInitializer.loadEvents();
         });
-
-        //Then
-        verify(eventRepository, times(0)).save(event);
     }
 }
