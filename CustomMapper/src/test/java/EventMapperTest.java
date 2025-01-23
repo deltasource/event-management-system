@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -26,6 +27,7 @@ public class EventMapperTest {
     private ObjectMapper objectMapper;
 
     private EventMapper eventMapper;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -48,9 +50,9 @@ public class EventMapperTest {
                 .thenReturn(mockEventListDto);
         when(objectMapper.convertValue(any(), eq(EventDto.class)))
                 .thenAnswer(invocation -> {
-            EventDto dto = invocation.getArgument(0);
-            return new EventDto(dto.id(), dto.name(), dto.dateTime(), dto.venue(), dto.maxCapacity(), dto.organizerDetails(), dto.ticketPrice());
-        });
+                    EventDto dto = invocation.getArgument(0);
+                    return new EventDto(dto.id(), dto.name(), dto.dateTime(), dto.venue(), dto.maxCapacity(), dto.organizerDetails(), dto.ticketPrice());
+                });
 
         //When
         List<EventDto> events = eventMapper.mapToEventList(inputStream, EventDto.class);

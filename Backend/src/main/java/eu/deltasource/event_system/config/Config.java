@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Config {
     @Bean
-    public EventMapper eventMapper(ObjectMapper objectMapper){
+    public EventMapper eventMapper(ObjectMapper objectMapper) {
         return new EventMapper(objectMapper);
     }
 }

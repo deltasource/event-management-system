@@ -30,4 +30,8 @@ public class EventMapper {
                 .map(eventDto -> objectMapper.convertValue(eventDto, targetClass))
                 .toList();
     }
+
+    public <T, G> G mapFromTo(T source, Class<G> targetClass) {
+        return objectMapper.convertValue(source, targetClass);
+    }
 }

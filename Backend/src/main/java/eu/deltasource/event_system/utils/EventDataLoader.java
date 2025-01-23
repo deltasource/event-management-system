@@ -19,6 +19,7 @@ import java.util.List;
 public class EventDataLoader {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
+
     public EventDataLoader(EventRepository eventRepository, EventMapper eventMapper) {
         this.eventRepository = eventRepository;
         this.eventMapper = eventMapper;
