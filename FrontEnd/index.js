@@ -3,6 +3,13 @@ const fs = require('fs');
 const path = require('path');
 
 const server = http.createServer((request, response) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (request.method === 'OPTIONS') {
+        response.writeHead(200);
+    }
     let filePath = path.join(__dirname, request.url === '/' ? 'index.html' : request.url);
     
     const extname = path.extname(filePath);

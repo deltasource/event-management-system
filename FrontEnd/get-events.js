@@ -5,18 +5,17 @@
  */
 async function getAllEvents() {
     try {
-        const response = await fetch('get-events.json');
-        const result = await response.json();
+        const response = await fetch('http://localhost:8080/getAll');
+        const events = await response.json();
         
         const eventsContainer = document.querySelector(".events-list");
-        result.events.forEach(event => {
+        events.forEach(event => {
             const eventElement = document.createElement('li');
             eventElement.classList.add('event');
             eventElement.innerHTML = `
                 <h2>Event name: ${event.name}</h2>
-                <p>Date: ${event.date}</p>
+                <p>Date: ${event.dateTime}</p>
                 <p>Venue: ${event.venue}</p>
-                <p>Category: ${event.category}</p>
                 <p>Ticket price: ${event.ticketPrice}</p>
             `;
             eventsContainer.appendChild(eventElement);

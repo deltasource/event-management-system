@@ -12,32 +12,28 @@ describe('getAllEvents', () => {
   });
 
   it('should fetch and display events', async () => {
-    //Given
+    // Given
     fetch.mockResolvedValueOnce({
-      json: jest.fn().mockResolvedValue({
-        events: [
-          {
-            name: 'Event 1',
-            date: '2025-01-01',
-            venue: 'Venue 1',
-            category: 'Category 1',
-            ticketPrice: '$50',
-          },
-          {
-            name: 'Event 2',
-            date: '2025-02-01',
-            venue: 'Venue 2',
-            category: 'Category 2',
-            ticketPrice: '$100',
-          },
-        ],
-      }),
+      json: jest.fn().mockResolvedValue([
+        {
+          name: 'Event 1',
+          dateTime: '2025-01-01T10:00:00',
+          venue: 'Venue 1',
+          ticketPrice: '$50',
+        },
+        {
+          name: 'Event 2',
+          dateTime: '2025-02-01T12:00:00',
+          venue: 'Venue 2',
+          ticketPrice: '$100',
+        },
+      ]),
     });
 
-    //When
+    // When
     await getAllEvents();
 
-    //Then
+    // Then
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(eventsContainer.childElementCount).toBe(2); // We have two events
     expect(eventsContainer.children[0].textContent).toContain('Event 1');
@@ -45,14 +41,14 @@ describe('getAllEvents', () => {
   });
 
   it('should handle errors', async () => {
-    //Given
+    // Given
     fetch.mockRejectedValueOnce(new Error());
     console.error = jest.fn();
 
-    //When
+    // When
     await getAllEvents();
 
-    //Then
+    // Then
     expect(console.error).toHaveBeenCalledWith('Error loading the events data:', expect.any(Error));
   });
 });
