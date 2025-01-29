@@ -13,7 +13,7 @@ function Events() {
         const eventsData = await response.json();
         setEvents(eventsData);
       } catch (error: any) {
-        setErrorMessage("Failed to fetch events!");
+        setErrorMessage("Failed to load events! Please try again later.");
       }
     };
 
