@@ -16,7 +16,6 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getAll")
     public List<EventViewDto> showAllEvents() {
         return eventService.getAllEvents();
