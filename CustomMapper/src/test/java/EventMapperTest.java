@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -25,7 +26,6 @@ public class EventMapperTest {
 
     @Mock
     private ObjectMapper objectMapper;
-
     private EventMapper eventMapper;
 
     @BeforeEach

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -17,11 +18,22 @@ public class EventRepository implements BaseRepository<Event> {
 
     @Override
     public void save(Event event) {
+        if (event.getId() == null) {
+            event.setId(UUID.randomUUID());
+        }
         events.put(event.getId(), event);
     }
 
     @Override
     public List<Event> getAll() {
         return events.values().stream().toList();
+    }
+
+    public Optional<Event> findById(UUID id) {
+        return Optional.ofNullable(events.get(id));
+    }
+
+    public void delete(Event event) {
+        events.remove(event.getId());
     }
 }
