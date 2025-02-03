@@ -17,6 +17,7 @@
         <java.version>17</java.version>
         <jackson.version>2.17.2</jackson.version>
         <event-mapper-version>1.0-SNAPSHOT</event-mapper-version>
+        <validation-version>3.4.1</validation-version>
     </properties>
     <dependencies>
         <dependency>
@@ -45,7 +46,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-            <version>3.4.1</version>
+            <version>${validation-version}</version>
         </dependency>
 
     </dependencies>

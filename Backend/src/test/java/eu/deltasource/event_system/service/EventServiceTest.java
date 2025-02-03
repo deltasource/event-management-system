@@ -1,8 +1,8 @@
 package eu.deltasource.event_system.service;
 
 import eu.deltasource.EventMapper;
-import eu.deltasource.event_system.dto.AddEventDto;
-import eu.deltasource.event_system.dto.EventViewDto;
+import eu.deltasource.dto.CreateEventDto;
+import eu.deltasource.dto.EventViewDto;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
 import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.repository.EventRepository;
@@ -12,10 +12,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import jakarta.validation.Validator;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,6 +32,8 @@ public class EventServiceTest {
     private EventRepository eventRepository;
     @Mock
     private EventMapper eventMapper;
+    @Mock
+    private Validator validator;
     @InjectMocks
     private EventService eventService;
 
@@ -53,25 +57,23 @@ public class EventServiceTest {
     }
 
     @Test
-    public void addEvent() {
+    public void createEventSuccessfully() {
         //Given
-        AddEventDto addEventDto = new AddEventDto("Event", LocalDateTime.now(), "venue", 100, "details", 10);
-        Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10);
-        when(eventMapper.mapFromTo(addEventDto, Event.class))
+        CreateEventDto createEventDto = new CreateEventDto("Event", LocalDateTime.now(), "venue", 100, "details", 10);
+        Event event = new Event(UUID.randomUUID(), "Event", createEventDto.dateTime(), "venue", 100, "details", 10);
+        when(eventMapper.mapFromTo(createEventDto, Event.class))
                 .thenReturn(event);
+        when(validator.validate(event))
+                .thenReturn(Set.of());
 
         //When
-        eventService.add(addEventDto);
+        eventService.create(createEventDto);
 
         //Then
         ArgumentCaptor<Event> eventArgumentCaptor = ArgumentCaptor.forClass(Event.class);
         verify(eventRepository).save(eventArgumentCaptor.capture());
         Event savedEvent = eventArgumentCaptor.getValue();
-        assertEquals(event.getName(), savedEvent.getName());
-        assertEquals(event.getMaxCapacity(), savedEvent.getMaxCapacity());
-        assertEquals(event.getVenue(), savedEvent.getVenue());
-        assertEquals(event.getDateTime(), savedEvent.getDateTime());
-        assertEquals(event.getOrganizerDetails(), savedEvent.getOrganizerDetails());
+        assertEquals(event, savedEvent);
     }
 
     @Test
@@ -93,7 +95,7 @@ public class EventServiceTest {
     public void deleteEventFails_whenEventIsNotFound() {
         //Given
         UUID uuid = UUID.randomUUID();
-        when(eventRepository.findById(any(UUID.class)))
+        when(eventRepository.findById(uuid))
                 .thenReturn(Optional.empty());
 
         //When, Then
@@ -106,19 +108,24 @@ public class EventServiceTest {
     public void updateEventSuccessfully() {
         //Given
         UUID uuid = UUID.randomUUID();
-        AddEventDto addEventDto = new AddEventDto("Event", LocalDateTime.now(), "venue", 100, "details", 10);
+        CreateEventDto createEventDto = new CreateEventDto("Event", LocalDateTime.now(), "venue", 100, "details", 10);
         Event event = new Event(uuid, "Event", LocalDateTime.now(), "venue", 100, "details", 10);
+        Event updatedEvent = new Event(uuid, "Event1", LocalDateTime.now(), "venue", 100, "details", 10);
         when(eventRepository.findById(uuid))
                 .thenReturn(Optional.of(event));
+        when(eventMapper.mapFromTo(createEventDto, Event.class))
+                .thenReturn(updatedEvent);
+        lenient().when(validator.validate(updatedEvent))
+                .thenReturn(Set.of());
 
         //When
-        eventService.updateEvent(uuid, addEventDto);
+        eventService.updateEvent(uuid, createEventDto);
 
         //Then
-        assertEquals(event.getName(), addEventDto.name());
-        assertEquals(event.getMaxCapacity(), addEventDto.maxCapacity());
-        assertEquals(event.getVenue(), addEventDto.venue());
-        assertEquals(event.getDateTime(), addEventDto.dateTime());
-        assertEquals(event.getOrganizerDetails(), addEventDto.organizerDetails());
+        assertEquals(event.getName(), updatedEvent.getName());
+        assertEquals(event.getMaxCapacity(), updatedEvent.getMaxCapacity());
+        assertEquals(event.getVenue(), updatedEvent.getVenue());
+        assertEquals(event.getDateTime(), updatedEvent.getDateTime());
+        assertEquals(event.getOrganizerDetails(), updatedEvent.getOrganizerDetails());
     }
 }
