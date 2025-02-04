@@ -25,7 +25,6 @@ public class EventMapperTest {
 
     @Mock
     private ObjectMapper objectMapper;
-
     private EventMapper eventMapper;
 
     @BeforeEach

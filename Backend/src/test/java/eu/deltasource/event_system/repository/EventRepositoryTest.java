@@ -5,12 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EventRepositoryTest {
     private EventRepository eventRepository;
@@ -22,7 +19,7 @@ public class EventRepositoryTest {
     }
 
     @Test
-    public void saveEvent() {
+    public void saveEvent_whenUUIDIsNotNull() {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10);
 
@@ -41,6 +38,25 @@ public class EventRepositoryTest {
     }
 
     @Test
+    public void saveEvent_whenUUIDIsNull() {
+        //Given
+        Event event = new Event(null, "Event", LocalDateTime.now(), "venue", 100, "details", 10);
+
+        //When
+        eventRepository.save(event);
+
+        //Then
+        Event actualEvent = eventRepository.getAll().get(0);
+        assertEquals(1, eventRepository.getAll().size());
+        assertNotNull(actualEvent.getId());
+        assertEquals(event.getName(), actualEvent.getName());
+        assertEquals(event.getDateTime(), actualEvent.getDateTime());
+        assertEquals(event.getVenue(), actualEvent.getVenue());
+        assertEquals(event.getMaxCapacity(), actualEvent.getMaxCapacity());
+        assertEquals(event.getTicketPrice(), actualEvent.getTicketPrice());
+    }
+
+    @Test
     public void getAllEvents_whenListIsNotEmpty() {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10);
@@ -51,5 +67,34 @@ public class EventRepositoryTest {
         //Then
         List<Event> eventList = eventRepository.getAll();
         assertEquals(1, eventList.size());
+    }
+
+    @Test
+    void findById_returnsEventWhenExists() {
+        // Given
+        UUID eventId = UUID.randomUUID();
+        Event event = new Event(eventId, "Concert", LocalDateTime.now(), "Stadium", 100, "Organizer", 20.0);
+        eventRepository.save(event);
+
+        // When
+        Optional<Event> foundEvent = eventRepository.findById(eventId);
+
+        // Then
+        assertTrue(foundEvent.isPresent());
+        assertEquals(event, foundEvent.get());
+    }
+
+    @Test
+    void delete_removesEvent() {
+        // Given
+        UUID eventId = UUID.randomUUID();
+        Event event = new Event(eventId, "Concert", LocalDateTime.now(), "Stadium", 100, "Organizer", 20.0);
+        eventRepository.save(event);
+
+        // When
+        eventRepository.delete(event);
+
+        // Then
+        assertTrue(eventRepository.findById(eventId).isEmpty());
     }
 }
