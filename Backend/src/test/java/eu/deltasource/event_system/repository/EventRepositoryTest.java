@@ -22,7 +22,7 @@ public class EventRepositoryTest {
     }
 
     @Test
-    public void saveEvent() {
+    public void saveEvent_whenGeneratedIDIsUnique() {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10);
 

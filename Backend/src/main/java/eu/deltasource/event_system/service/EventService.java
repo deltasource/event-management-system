@@ -45,12 +45,12 @@ public class EventService {
     }
 
     public void delete(UUID id) {
-        Event event = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
+        Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
         eventRepository.delete(event);
     }
 
     public void updateEvent(UUID id, CreateEventDto createEventDto) {
-        Event event = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
+        Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
         Event updatedEvent = eventMapper.mapFromTo(createEventDto, Event.class);
         validateEvent(updatedEvent);
         updateEventData(event, updatedEvent);

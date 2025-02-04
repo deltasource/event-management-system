@@ -123,12 +123,12 @@ public class EventControllerTest {
     public void deleteEvent_whenIsNotFound_thenStatusIsNotFound() throws Exception {
         //Given
         UUID uuid = UUID.randomUUID();
-        doThrow(new EventNotFoundException()).when(eventService).delete(uuid);
+        doThrow(new EventNotFoundException(uuid)).when(eventService).delete(uuid);
 
         //When
         mockMvc.perform(delete("/events/{id}", uuid))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("This event is not found"));
+                .andExpect(content().string("Event with id " + uuid + " is not found"));
     }
 
     @Test
