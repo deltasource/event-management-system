@@ -19,7 +19,7 @@ public class EventRepository implements BaseRepository<Event> {
     @Override
     public void save(Event event) {
         if (event.getId() == null) {
-            UUID generatedUUID = getUUID();
+            UUID generatedUUID = generateId();
             event.setId(generatedUUID);
         }
         events.put(event.getId(), event);
@@ -38,7 +38,7 @@ public class EventRepository implements BaseRepository<Event> {
         events.remove(event.getId());
     }
 
-    private UUID getUUID() {
+    private UUID generateId() {
         UUID generatedUUID = UUID.randomUUID();
         while (events.containsKey(generatedUUID)){
             generatedUUID = UUID.randomUUID();

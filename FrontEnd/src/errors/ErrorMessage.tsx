@@ -30,7 +30,11 @@ export default function ErrorMessage(errorProps: ErrorMessageProps) {
           horizontal: "center",
         }}
       >
-        <Alert severity="error" sx={{ width: "100%" }} onClose={handleClose}>
+        <Alert
+          severity={errorProps.severity}
+          sx={{ width: "100%" }}
+          onClose={handleClose}
+        >
           {message}
         </Alert>
       </Snackbar>

@@ -59,8 +59,8 @@ public class EventServiceTest {
     @Test
     public void createEventSuccessfully() {
         //Given
-        CreateEventDto createEventDto = new CreateEventDto("Event", LocalDateTime.now(), "venue", 100, "details", 10);
-        Event event = new Event(UUID.randomUUID(), "Event", createEventDto.dateTime(), "venue", 100, "details", 10);
+        CreateEventDto createEventDto = new CreateEventDto("Event", LocalDateTime.now().toString(), "venue", 100, "details", 10);
+        Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.parse(createEventDto.dateTime()), "venue", 100, "details", 10);
         when(eventMapper.mapFromTo(createEventDto, Event.class))
                 .thenReturn(event);
         when(validator.validate(event))
@@ -108,7 +108,7 @@ public class EventServiceTest {
     public void updateEventSuccessfully() {
         //Given
         UUID uuid = UUID.randomUUID();
-        CreateEventDto createEventDto = new CreateEventDto("Event", LocalDateTime.now(), "venue", 100, "details", 10);
+        CreateEventDto createEventDto = new CreateEventDto("Event", LocalDateTime.now().toString(), "venue", 100, "details", 10);
         Event event = new Event(uuid, "Event", LocalDateTime.now(), "venue", 100, "details", 10);
         Event updatedEvent = new Event(uuid, "Event1", LocalDateTime.now(), "venue", 100, "details", 10);
         when(eventRepository.findById(uuid))

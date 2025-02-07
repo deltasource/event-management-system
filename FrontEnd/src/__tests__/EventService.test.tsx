@@ -23,7 +23,7 @@ describe("Test EventService component", async () => {
     const result = await eventService.fetchEvents();
 
     //Then
-    expect(fetch).toHaveBeenCalledWith("http://localhost:8080/getAll");
+    expect(fetch).toHaveBeenCalledWith("http://localhost:8080/events");
     expect(result).toEqual(mockedEvents);
   });
 
@@ -36,5 +36,58 @@ describe("Test EventService component", async () => {
 
     //When, Then
     await expect(eventService.fetchEvents()).rejects.toThrowError();
+  });
+
+  test("create event successfully"),
+    async () => {
+      //Given
+      const eventData = {
+        name: "Concert A",
+        dateTime: "2025-02-01T20:00",
+        venue: "Stadium A",
+        ticketPrice: 50,
+        maxCapacity: 100,
+        organizerDetails: "Organizer A",
+      };
+
+      fetch.mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve("Event created successfully"),
+      });
+
+      //When
+      const result = await eventService.createEvent(eventData);
+
+      //Then
+      expect(fetch).toHaveBeenCalledWith(
+        "http://localhost:8080/events",
+        expect.objectContaining({
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(eventData),
+        })
+      );
+      expect(result).toBe("Event created successfully");
+    };
+
+  test("get events throws error", async () => {
+    //Given
+    const eventData = {
+      name: "Concert A",
+      dateTime: "2025-02-01T20:00",
+      venue: "Stadium A",
+      ticketPrice: 50,
+      maxCapacity: 100,
+      organizerDetails: "Organizer A",
+    };
+    fetch.mockResolvedValueOnce({
+      ok: false,
+      json: () => Promise.resolve([]),
+    });
+
+    //When, Then
+    await expect(eventService.createEvent(eventData)).rejects.toThrowError();
   });
 });
