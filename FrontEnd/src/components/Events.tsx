@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Event from "../models/Event.tsx";
-import ErrorMessage from "../errors/ErrorMessage.tsx";
+import ResponseMessage from "./ResponseMessage.tsx";
 import * as eventService from "../service/EventService.tsx";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -25,6 +25,7 @@ function Events() {
       setEvents(data);
     } catch (error: any) {
       setResponseMessage("Failed to load events! Please try again later.");
+      setSeverity("error");
     }
   };
 
@@ -57,7 +58,7 @@ function Events() {
         />
       </PopupElement>
       {responseMessage && (
-        <ErrorMessage message={responseMessage} severity={severity} />
+        <ResponseMessage message={responseMessage} severity={severity} />
       )}
       {events && (
         <div className="list-group">

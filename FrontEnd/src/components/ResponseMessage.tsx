@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Snackbar, Alert } from "@mui/material";
-import ErrorMessageProps from "./ErrorMessageProps";
+import ResponseMessageProps from "./ResponseMessageProps";
 
 /**
  * Component, responsible for presenting an error message within a Snackbar component
  **/
-export default function ErrorMessage(errorProps: ErrorMessageProps) {
+export default function ResponseMessage(errorProps: ResponseMessageProps) {
   const message = errorProps.message;
   const [open, setOpen] = useState(false);
 
