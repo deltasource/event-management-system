@@ -38,8 +38,8 @@ public class EventControllerTest {
     @Test
     public void getAllEvents_shouldReturnSuccess() throws Exception {
         //Given
-        EventViewDto eventViewDto1 = new EventViewDto("Event 1", "Stadium A", "2025-02-01T20:00", 50.0);
-        List<EventViewDto> mockEvents = List.of(eventViewDto1);
+        EventViewDto eventViewDto = new EventViewDto("Event 1", "Stadium A", "2025-02-01T20:00", 50.0);
+        List<EventViewDto> mockEvents = List.of(eventViewDto);
         when(eventService.getAllEvents()).thenReturn(mockEvents);
 
         //When, Then
@@ -56,7 +56,7 @@ public class EventControllerTest {
         //Given
         CreateEventDto createEventDto = new CreateEventDto(
                 "Concert A",
-                LocalDateTime.now(),
+                LocalDateTime.now().toString(),
                 "Stadium A",
                 500,
                 "Music Corp.",
