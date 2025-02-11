@@ -1,9 +1,9 @@
 import * as eventService from "../service/EventService";
 import { vi } from "vitest";
 
-global.fetch = vi.fn();
+global.fetch = vi.fn() as unknown as jest.Mock;
 
-describe("Test EventService component", async () => {
+describe("Test EventService component", () => {
   test("get events successfully", async () => {
     //Given
     const mockedEvents = [
@@ -14,7 +14,7 @@ describe("Test EventService component", async () => {
         ticketPrice: 50,
       },
     ];
-    fetch.mockResolvedValueOnce({
+    (fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve(mockedEvents),
     });
@@ -27,9 +27,9 @@ describe("Test EventService component", async () => {
     expect(result).toEqual(mockedEvents);
   });
 
-  test("get events throws error", async () => {
+  test("get events throws error when not successful", async () => {
     //Given
-    fetch.mockResolvedValueOnce({
+    (fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
       json: () => Promise.resolve([]),
     });
@@ -50,7 +50,7 @@ describe("Test EventService component", async () => {
         organizerDetails: "Organizer A",
       };
 
-      fetch.mockResolvedValueOnce({
+      (fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         text: () => Promise.resolve("Event created successfully"),
       });
@@ -72,7 +72,7 @@ describe("Test EventService component", async () => {
       expect(result).toBe("Event created successfully");
     };
 
-  test("get events throws error", async () => {
+  test("create event throws error when not successful", async () => {
     //Given
     const eventData = {
       name: "Concert A",
@@ -82,7 +82,7 @@ describe("Test EventService component", async () => {
       maxCapacity: 100,
       organizerDetails: "Organizer A",
     };
-    fetch.mockResolvedValueOnce({
+    (fetch as jest.Mock).mockResolvedValueOnce({
       ok: false,
       json: () => Promise.resolve([]),
     });
