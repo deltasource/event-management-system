@@ -5,17 +5,18 @@ import * as eventService from "../service/EventService.tsx";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import PopupElement from "./UI/Popup.tsx";
-import CreateEvent from "./CreateEvent.tsx";
+import CreateEvent from "./EventForm.tsx";
+import EventDetails from "./EventDetails.tsx";
 
 function Events() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [openPopup, setOpenPopup] = useState(false);
+  const [openCreateEventPopup, setOpenCreateEventPopup] = useState(false);
+  const [openEventDetailsPopup, setEventDetailsPopup] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [severity, setSeverity] = useState<"success" | "error">("success");
-  const handleCreateEventResponse = (
-    message: string,
-    severity: "success" | "error"
-  ) => {
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
+  const handleResponse = (message: string, severity: "success" | "error") => {
     setResponseMessage(message);
     setSeverity(severity);
   };
@@ -31,7 +32,7 @@ function Events() {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [responseMessage]);
 
   return (
     <div>
@@ -40,7 +41,7 @@ function Events() {
         variant="outlined"
         className="mb-3"
         onClick={() => {
-          setOpenPopup(true);
+          setOpenCreateEventPopup(true);
         }}
       >
         <AddIcon fontSize="small" />
@@ -48,22 +49,45 @@ function Events() {
       </Button>
       <PopupElement
         title="CREATE NEW EVENT"
-        openPopup={openPopup}
-        setOpen={setOpenPopup}
+        openPopup={openCreateEventPopup}
+        setOpen={setOpenCreateEventPopup}
       >
         <CreateEvent
           fetchEvents={fetchEvents}
-          setOpenPopup={setOpenPopup}
-          setCreateEventResponse={handleCreateEventResponse}
+          setOpenPopup={setOpenCreateEventPopup}
+          setCreateEventResponse={handleResponse}
         />
       </PopupElement>
+      <PopupElement
+        title="EVENT DETAILS"
+        openPopup={openEventDetailsPopup}
+        setOpen={setEventDetailsPopup}
+      >
+        <EventDetails
+          event={selectedEvent}
+          setOpenPopup={setEventDetailsPopup}
+          setResponse={handleResponse}
+          fetchEvents={fetchEvents}
+        ></EventDetails>
+      </PopupElement>
       {responseMessage && (
-        <ResponseMessage message={responseMessage} severity={severity} />
+        <ResponseMessage
+          setResponseMessage={setResponseMessage}
+          message={responseMessage}
+          severity={severity}
+        />
       )}
       {events && (
         <div className="list-group">
           {events.map((event, index) => (
-            <div key={index} className="list-group-item">
+            <div
+              key={index}
+              className="list-group-item"
+              onClick={() => {
+                setSelectedEvent(event);
+                setEventDetailsPopup(true);
+              }}
+            >
               <h5>{event.name}</h5>
               <p>Date: {event.dateTime}</p>
               <p>Place: {event.venue}</p>

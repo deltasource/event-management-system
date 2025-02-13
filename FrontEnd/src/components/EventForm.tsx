@@ -12,7 +12,7 @@ export default class CreateEvent extends Component<
 > {
   constructor(props: CreateEventProps) {
     super(props);
-    this.state = {
+    const initialState = {
       name: "",
       date: "",
       time: "",
@@ -22,6 +22,18 @@ export default class CreateEvent extends Component<
       organizerDetails: "",
       errors: {},
     };
+
+    if (props.event) {
+      initialState.name = props.event.name;
+      initialState.date = props.event.dateTime.split("T")[0];
+      initialState.time = props.event.dateTime.split("T")[1].split(".")[0];
+      initialState.venue = props.event.venue;
+      initialState.ticketPrice = props.event.ticketPrice;
+      initialState.maxCapacity = props.event.maxCapacity;
+      initialState.organizerDetails = props.event.organizerDetails;
+    }
+
+    this.state = initialState;
   }
 
   onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +70,12 @@ export default class CreateEvent extends Component<
       organizerDetails,
     };
     try {
-      const response = await eventService.createEvent(eventData);
+      let response;
+      if (this.props.event && this.props.eventId) {
+        response = await eventService.editEvent(this.props.eventId, eventData);
+      } else {
+        response = await eventService.createEvent(eventData);
+      }
       this.props.setCreateEventResponse(response, "success");
       this.props.setOpenPopup(false);
       this.props.fetchEvents();
@@ -184,7 +201,7 @@ export default class CreateEvent extends Component<
                 type="submit"
                 style={{ color: "white" }}
               >
-                Create Event
+                {this.props.event ? "Edit Event" : "Create Event"}
               </Button>
             </Grid>
 

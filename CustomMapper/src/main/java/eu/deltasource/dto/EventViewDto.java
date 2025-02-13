@@ -1,4 +1,6 @@
 package eu.deltasource.dto;
 
-public record EventViewDto(String name, String venue, String dateTime, double ticketPrice) {
+import java.util.UUID;
+
+public record EventViewDto(UUID id, String name, String venue, String dateTime, double ticketPrice, int maxCapacity, String organizerDetails) {
 }

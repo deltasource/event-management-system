@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Events from "./components/Events";
 import HomePage from "./components/HomePage";
 import Layout from "./components/Layout";
-import CreateEvent from "./components/CreateEvent";
+import CreateEvent from "./components/EventForm";
 
 const router = createBrowserRouter([
   {
