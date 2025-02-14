@@ -38,7 +38,7 @@ public class EventMapperTest {
         //Given
         EventDto eventDto = new EventDto(UUID.randomUUID(),
                 "Event 1",
-                LocalDateTime.now(),
+                LocalDateTime.now().toString(),
                 "Venue A",
                 100,
                 "Organizer A",

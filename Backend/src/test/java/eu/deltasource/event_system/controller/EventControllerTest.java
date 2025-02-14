@@ -1,7 +1,7 @@
 package eu.deltasource.event_system.controller;
 
 import eu.deltasource.dto.CreateEventDto;
-import eu.deltasource.dto.EventViewDto;
+import eu.deltasource.dto.EventDto;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
 import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.repository.EventRepository;
@@ -38,16 +38,16 @@ public class EventControllerTest {
     @Test
     public void getAllEvents_shouldReturnSuccess() throws Exception {
         //Given
-        EventViewDto eventViewDto = new EventViewDto("Event 1", "Stadium A", "2025-02-01T20:00", 50.0);
-        List<EventViewDto> mockEvents = List.of(eventViewDto);
+        EventDto eventDto = new EventDto(UUID.randomUUID(), "Event 1", "2025-02-01T20:00", "Stadium A", 50, "Organizer", 50);
+        List<EventDto> mockEvents = List.of(eventDto);
         when(eventService.getAllEvents()).thenReturn(mockEvents);
 
         //When, Then
         mockMvc.perform(get("/events"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("Event 1"))
-                .andExpect(jsonPath("$[0].venue").value("Stadium A"))
                 .andExpect(jsonPath("$[0].dateTime").value("2025-02-01T20:00"))
+                .andExpect(jsonPath("$[0].venue").value("Stadium A"))
                 .andExpect(jsonPath("$[0].ticketPrice").value("50.0"));
     }
 

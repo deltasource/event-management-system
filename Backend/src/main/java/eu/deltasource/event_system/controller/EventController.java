@@ -1,7 +1,7 @@
 package eu.deltasource.event_system.controller;
 
 import eu.deltasource.dto.CreateEventDto;
-import eu.deltasource.dto.EventViewDto;
+import eu.deltasource.dto.EventDto;
 import eu.deltasource.event_system.service.EventService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class EventController {
     }
 
     @GetMapping()
-    public List<EventViewDto> showAllEvents() {
+    public List<EventDto> showAllEvents() {
         return eventService.getAllEvents();
     }
 

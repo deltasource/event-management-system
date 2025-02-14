@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Snackbar, Alert } from "@mui/material";
-import ResponseMessageProps from "./ResponseMessageProps";
+import ResponseMessageProps from "../../domain/types/ResponseMessageProps";
 
 /**
  * Component, responsible for presenting an error message within a Snackbar component
  **/
-export default function ResponseMessage(errorProps: ResponseMessageProps) {
-  const message = errorProps.message;
+export default function ResponseMessage(responseProps: ResponseMessageProps) {
+  const message = responseProps.message;
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -17,7 +17,10 @@ export default function ResponseMessage(errorProps: ResponseMessageProps) {
 
   const handleClose = () => {
     setOpen(false);
+    responseProps.setResponseMessage("");
   };
+
+  useEffect(() => {}, [open]);
 
   return (
     <React.Fragment>
@@ -31,7 +34,7 @@ export default function ResponseMessage(errorProps: ResponseMessageProps) {
         }}
       >
         <Alert
-          severity={errorProps.severity}
+          severity={responseProps.severity}
           sx={{ width: "100%" }}
           onClose={handleClose}
         >

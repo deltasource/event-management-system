@@ -3,10 +3,10 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import Events from "./components/Events";
+import Events from "./components/events/Events";
 import HomePage from "./components/HomePage";
 import Layout from "./components/Layout";
-import CreateEvent from "./components/CreateEvent";
+import CreateEvent from "./components/events/EventForm";
 
 const router = createBrowserRouter([
   {

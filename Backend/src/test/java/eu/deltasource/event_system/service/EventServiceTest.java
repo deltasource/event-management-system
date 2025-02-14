@@ -2,17 +2,17 @@ package eu.deltasource.event_system.service;
 
 import eu.deltasource.EventMapper;
 import eu.deltasource.dto.CreateEventDto;
-import eu.deltasource.dto.EventViewDto;
+import eu.deltasource.dto.EventDto;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
 import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.repository.EventRepository;
+import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import jakarta.validation.Validator;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,15 +41,15 @@ public class EventServiceTest {
     public void getEvents() {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10);
-        EventViewDto eventViewDto = new EventViewDto(event.getName(), event.getVenue(), event.getDateTime().toString(), event.getTicketPrice());
+        EventDto eventViewDto = new EventDto(event.getId(), event.getName(), event.getVenue(), event.getDateTime().toString(), event.getMaxCapacity(), event.getOrganizerDetails(), event.getTicketPrice());
         List<Event> events = List.of(event);
         when(eventRepository.getAll())
                 .thenReturn(events);
-        when(eventMapper.mapFromTo(any(Event.class), eq(EventViewDto.class)))
+        when(eventMapper.mapFromTo(any(Event.class), eq(EventDto.class)))
                 .thenReturn(eventViewDto);
 
         //When
-        List<EventViewDto> allEvents = eventService.getAllEvents();
+        List<EventDto> allEvents = eventService.getAllEvents();
 
         //Then
         assertEquals(events.size(), allEvents.size());
