@@ -40,7 +40,7 @@ public class EventRepository implements BaseRepository<Event> {
 
     private UUID generateId() {
         UUID generatedUUID = UUID.randomUUID();
-        while (events.containsKey(generatedUUID)){
+        while (events.containsKey(generatedUUID)) {
             generatedUUID = UUID.randomUUID();
         }
         return generatedUUID;

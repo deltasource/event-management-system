@@ -41,7 +41,7 @@ public class EventServiceTest {
     public void getEvents() {
         //Given
         Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10);
-        EventDto eventViewDto = new EventDto(event.getId(),event.getName(), event.getVenue(), event.getDateTime().toString(),event.getMaxCapacity(), event.getOrganizerDetails(), event.getTicketPrice());
+        EventDto eventViewDto = new EventDto(event.getId(), event.getName(), event.getVenue(), event.getDateTime().toString(), event.getMaxCapacity(), event.getOrganizerDetails(), event.getTicketPrice());
         List<Event> events = List.of(event);
         when(eventRepository.getAll())
                 .thenReturn(events);

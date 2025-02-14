@@ -38,7 +38,7 @@ public class EventControllerTest {
     @Test
     public void getAllEvents_shouldReturnSuccess() throws Exception {
         //Given
-        EventDto eventDto = new EventDto(UUID.randomUUID(), "Event 1","2025-02-01T20:00","Stadium A" , 50, "Organizer",50);
+        EventDto eventDto = new EventDto(UUID.randomUUID(), "Event 1", "2025-02-01T20:00", "Stadium A", 50, "Organizer", 50);
         List<EventDto> mockEvents = List.of(eventDto);
         when(eventService.getAllEvents()).thenReturn(mockEvents);
 

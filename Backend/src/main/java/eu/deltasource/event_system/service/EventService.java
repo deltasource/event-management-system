@@ -26,7 +26,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final Validator validator;
-    private static final Logger logger = LoggerFactory.getLogger(EventService.class);
+    private final Logger logger = LoggerFactory.getLogger(EventService.class);
 
     public EventService(EventRepository eventRepository, EventMapper eventMapper, Validator validator) {
         this.eventRepository = eventRepository;
@@ -49,16 +49,20 @@ public class EventService {
 
     public void delete(UUID id) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
+        logger.info("Event with id: {}  is founded", id);
         eventRepository.delete(event);
+        logger.info("Event with id: {} is successfully deleted", id);
     }
 
     public void updateEvent(UUID id, CreateEventDto createEventDto) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
-        logger.info("Founded event " + event);
+        logger.info("Founded event data: {}", event.toString());
         Event updatedEvent = eventMapper.mapFromTo(createEventDto, Event.class);
-        logger.info("Mapped ");
+        logger.info("Mapped event data: {}", updatedEvent.toString());
         validateEvent(updatedEvent);
+        logger.info("Validation is successful");
         updateEventData(event, updatedEvent);
+        logger.info("Event with id {} has been successfully updated", id);
     }
 
     private void updateEventData(Event event, Event updatedEvent) {

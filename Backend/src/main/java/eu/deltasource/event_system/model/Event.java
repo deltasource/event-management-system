@@ -97,4 +97,17 @@ public class Event {
     public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dateTime=" + dateTime +
+                ", venue='" + venue + '\'' +
+                ", maxCapacity=" + maxCapacity +
+                ", organizerDetails='" + organizerDetails + '\'' +
+                ", ticketPrice=" + ticketPrice +
+                '}';
+    }
 }
