@@ -93,8 +93,9 @@ describe("Test EventService component", () => {
     //When, Then
     await expect(eventService.createEvent(eventData)).rejects.toThrowError();
   });
+
   test("delete event successfully", async () => {
-    // Given
+    //Given
     const eventId = "123";
 
     (fetch as jest.Mock).mockResolvedValueOnce({
@@ -102,10 +103,10 @@ describe("Test EventService component", () => {
       text: () => Promise.resolve("Event deleted successfully"),
     });
 
-    // When
+    //When
     const result = await eventService.deleteEvent(eventId);
 
-    // Then
+    //Then
     expect(fetch).toHaveBeenCalledWith(
       `http://localhost:8080/events/${eventId}`,
       expect.objectContaining({
@@ -114,8 +115,9 @@ describe("Test EventService component", () => {
     );
     expect(result).toBe("Event deleted successfully");
   });
+
   test("delete event throws error when not successful", async () => {
-    // Given
+    //Given
     const eventId = "123";
 
     (fetch as jest.Mock).mockResolvedValueOnce({
@@ -123,12 +125,12 @@ describe("Test EventService component", () => {
       text: () => Promise.resolve("Error deleting event"),
     });
 
-    // When, Then
+    //When, Then
     await expect(eventService.deleteEvent(eventId)).rejects.toThrowError();
   });
 
   test("edit event successfully", async () => {
-    // Given
+    //Given
     const eventId = "123";
     const eventData = {
       name: "Updated Concert A",
@@ -144,10 +146,10 @@ describe("Test EventService component", () => {
       text: () => Promise.resolve("Event updated successfully"),
     });
 
-    // When
+    //When
     const result = await eventService.editEvent(eventId, eventData);
 
-    // Then
+    //Then
     expect(fetch).toHaveBeenCalledWith(
       `http://localhost:8080/events/${eventId}`,
       expect.objectContaining({
@@ -162,7 +164,7 @@ describe("Test EventService component", () => {
   });
 
   test("edit event throws error when not successful", async () => {
-    // Given
+    //Given
     const eventId = "123";
     const eventData = {
       name: "Updated Concert A",
@@ -178,13 +180,14 @@ describe("Test EventService component", () => {
       text: () => Promise.resolve("Error updating event"),
     });
 
-    // When, Then
+    //When, Then
     await expect(
       eventService.editEvent(eventId, eventData)
     ).rejects.toThrowError();
   });
 
   test("delete event successfully", async () => {
+    //Given
     const mockEvent = {
       id: "1",
       name: "Updated Concert A",
@@ -212,9 +215,12 @@ describe("Test EventService component", () => {
     );
 
     const deleteButton = screen.getByText("Delete");
+    //When
     await act(async () => {
       fireEvent.click(deleteButton);
     });
+
+    //Then
     expect(fetch).toHaveBeenCalledWith(
       "http://localhost:8080/events/1",
       expect.objectContaining({

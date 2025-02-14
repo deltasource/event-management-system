@@ -3,7 +3,8 @@ import { useState } from "react";
 import { CardContent, Card, Button } from "@mui/material";
 import * as eventService from "../service/EventService.tsx";
 import PopupElement from "../components/UI/Popup.tsx";
-import CreateEvent from "./EventForm.tsx";
+import EventForm from "./EventForm.tsx";
+import ConfirmationElement from "./ConfirmationElement.tsx";
 
 interface EventDetailsProps {
   event: Event | null;
@@ -19,7 +20,9 @@ export default function EventDetails({
   fetchEvents,
 }: EventDetailsProps) {
   const [openUpdatePopup, setOpenUpdatePopup] = useState(false);
-  const handleDelete = async () => {
+  const [deleteConfirmationPopup, setDeleteConfirmationPopup] = useState(false);
+
+  const handleConfirmedDelete = async () => {
     if (event?.id) {
       try {
         const response = await eventService.deleteEvent(event.id);
@@ -32,8 +35,16 @@ export default function EventDetails({
     }
   };
 
+  const handleDelete = () => {
+    setDeleteConfirmationPopup(true);
+  };
+
   const showPopup = () => {
     setOpenUpdatePopup(true);
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteConfirmationPopup(false);
   };
 
   if (!event) return <div>No event selected</div>;
@@ -64,9 +75,10 @@ export default function EventDetails({
             openPopup={openUpdatePopup}
             setOpen={setOpenUpdatePopup}
           >
-            <CreateEvent
+            <EventForm
               fetchEvents={fetchEvents}
               setOpenPopup={setOpenUpdatePopup}
+              setChildOpenPopup={setOpenPopup}
               setCreateEventResponse={setResponse}
               eventId={event.id}
               event={event}
@@ -80,6 +92,16 @@ export default function EventDetails({
           >
             Edit
           </Button>
+          <PopupElement
+            title="CONFIRM EVENT DELETION"
+            openPopup={deleteConfirmationPopup}
+            setOpen={setDeleteConfirmationPopup}
+          >
+            <ConfirmationElement
+              onCancel={handleCancelDelete}
+              onConfirm={handleConfirmedDelete}
+            />
+          </PopupElement>
           <Button variant="contained" color="error" onClick={handleDelete}>
             Delete
           </Button>

@@ -1,16 +1,16 @@
 import { Component } from "react";
 import * as eventService from "../service/EventService.tsx";
-import CreateEventState from "../models/CreateEventState.tsx";
+import EventFormState from "../models/EventFormState.tsx";
 import { EventData } from "../models/EventData.tsx";
 import { Grid, Button, TextField } from "@mui/material";
-import { CreateEventProps } from "../models/CreateEventProps.tsx";
+import { EventFormProps } from "../models/EventFormProps.tsx";
 import { EventValidator } from "../utils/EventValidator.tsx";
 
-export default class CreateEvent extends Component<
-  CreateEventProps,
-  CreateEventState
+export default class EventForm extends Component<
+  EventFormProps,
+  EventFormState
 > {
-  constructor(props: CreateEventProps) {
+  constructor(props: EventFormProps) {
     super(props);
     const initialState = {
       name: "",
@@ -73,6 +73,9 @@ export default class CreateEvent extends Component<
       let response;
       if (this.props.event && this.props.eventId) {
         response = await eventService.editEvent(this.props.eventId, eventData);
+        if (this.props.setChildOpenPopup) {
+          this.props.setChildOpenPopup(false);
+        }
       } else {
         response = await eventService.createEvent(eventData);
       }

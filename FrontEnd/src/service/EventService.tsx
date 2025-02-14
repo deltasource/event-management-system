@@ -1,7 +1,8 @@
 import { EventData } from "../models/EventData";
 
+const baseUrl = "http://localhost:8080/events";
 export const fetchEvents = async () => {
-  const response = await fetch("http://localhost:8080/events");
+  const response = await fetch(baseUrl);
   if (!response.ok) {
     throw new Error();
   }
@@ -10,7 +11,7 @@ export const fetchEvents = async () => {
 };
 
 export const createEvent = async (eventData: EventData) => {
-  const response = await fetch("http://localhost:8080/events", {
+  const response = await fetch(baseUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +26,7 @@ export const createEvent = async (eventData: EventData) => {
 };
 
 export const deleteEvent = async (id: string) => {
-  const url = "http://localhost:8080/events/" + id;
+  const url = baseUrl + "/" + id;
   const response = await fetch(url, {
     method: "DELETE",
   });
@@ -37,7 +38,7 @@ export const deleteEvent = async (id: string) => {
 };
 
 export const editEvent = async (id: string, eventData: EventData) => {
-  const url = "http://localhost:8080/events/" + id;
+  const url = baseUrl + "/" + id;
   const response = await fetch(url, {
     method: "PUT",
     headers: {

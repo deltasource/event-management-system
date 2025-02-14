@@ -1,4 +1,4 @@
-import CreateEventState from "../models/CreateEventState";
+import CreateEventState from "../models/EventFormState";
 export function EventValidator(state: CreateEventState) {
   const {
     name,

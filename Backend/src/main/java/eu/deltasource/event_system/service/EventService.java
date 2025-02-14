@@ -2,7 +2,7 @@ package eu.deltasource.event_system.service;
 
 import eu.deltasource.EventMapper;
 import eu.deltasource.dto.CreateEventDto;
-import eu.deltasource.dto.EventViewDto;
+import eu.deltasource.dto.EventDto;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
 import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.repository.EventRepository;
@@ -31,9 +31,9 @@ public class EventService {
         this.validator = validator;
     }
 
-    public List<EventViewDto> getAllEvents() {
+    public List<EventDto> getAllEvents() {
         return eventRepository.getAll().stream()
-                .map(e -> eventMapper.mapFromTo(e, EventViewDto.class))
+                .map(e -> eventMapper.mapFromTo(e, EventDto.class))
                 .toList();
     }
 

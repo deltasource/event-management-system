@@ -5,8 +5,8 @@ import * as eventService from "../service/EventService.tsx";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import PopupElement from "./UI/Popup.tsx";
-import CreateEvent from "./EventForm.tsx";
 import EventDetails from "./EventDetails.tsx";
+import EventForm from "./EventForm.tsx";
 
 function Events() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -52,7 +52,7 @@ function Events() {
         openPopup={openCreateEventPopup}
         setOpen={setOpenCreateEventPopup}
       >
-        <CreateEvent
+        <EventForm
           fetchEvents={fetchEvents}
           setOpenPopup={setOpenCreateEventPopup}
           setCreateEventResponse={handleResponse}
