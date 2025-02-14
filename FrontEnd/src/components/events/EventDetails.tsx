@@ -1,17 +1,10 @@
-import Event from "../models/Event";
 import { useState } from "react";
 import { CardContent, Card, Button } from "@mui/material";
-import * as eventService from "../service/EventService.tsx";
-import PopupElement from "../components/UI/Popup.tsx";
+import * as eventService from "../../service/EventService.tsx";
+import PopupElement from "../common/Popup.tsx";
 import EventForm from "./EventForm.tsx";
-import ConfirmationElement from "./ConfirmationElement.tsx";
-
-interface EventDetailsProps {
-  event: Event | null;
-  setResponse: (message: string, severity: "success" | "error") => void;
-  setOpenPopup: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchEvents: () => void;
-}
+import ConfirmationElement from "../common/ConfirmationElement.tsx";
+import { EventDetailsProps } from "../../domain/types/EventDetailsProps.tsx";
 
 export default function EventDetails({
   event,

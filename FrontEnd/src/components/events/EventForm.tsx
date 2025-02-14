@@ -1,10 +1,10 @@
 import { Component } from "react";
-import * as eventService from "../service/EventService.tsx";
-import EventFormState from "../models/EventFormState.tsx";
-import { EventData } from "../models/EventData.tsx";
+import * as eventService from "../../service/EventService.tsx";
+import EventFormState from "../../domain/models/EventFormState.tsx";
+import { EventData } from "../../domain/models/EventData.tsx";
 import { Grid, Button, TextField } from "@mui/material";
-import { EventFormProps } from "../models/EventFormProps.tsx";
-import { EventValidator } from "../utils/EventValidator.tsx";
+import { EventFormProps } from "../../domain/types/EventFormProps.tsx";
+import { EventValidator } from "../../utils/EventValidator.tsx";
 
 export default class EventForm extends Component<
   EventFormProps,

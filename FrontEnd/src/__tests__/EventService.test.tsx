@@ -1,7 +1,7 @@
 import * as eventService from "../service/EventService";
 import { vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import EventDetails from "../components/EventDetails";
+import EventDetails from "../components/events/EventDetails";
 import { act } from "react-dom/test-utils";
 
 global.fetch = vi.fn() as unknown as jest.Mock;

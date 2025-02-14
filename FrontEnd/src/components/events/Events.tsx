@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Event from "../models/Event.tsx";
-import ResponseMessage from "./ResponseMessage.tsx";
-import * as eventService from "../service/EventService.tsx";
+import Event from "../../domain/models/Event.tsx";
+import ResponseMessage from "../common/ResponseMessage.tsx";
+import * as eventService from "../../service/EventService.tsx";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import PopupElement from "./UI/Popup.tsx";
+import PopupElement from "../common/Popup.tsx";
 import EventDetails from "./EventDetails.tsx";
 import EventForm from "./EventForm.tsx";
 

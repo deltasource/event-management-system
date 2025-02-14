@@ -1,4 +1,4 @@
-import { EventData } from "../models/EventData";
+import { EventData } from "../domain/models/EventData";
 
 const baseUrl = "http://localhost:8080/events";
 export const fetchEvents = async () => {

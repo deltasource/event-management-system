@@ -1,4 +1,4 @@
-import { EventData } from "./EventData";
+import { EventData } from "../models/EventData";
 export interface EventFormProps {
   setOpenPopup: React.Dispatch<React.SetStateAction<boolean>>;
   setChildOpenPopup?: React.Dispatch<React.SetStateAction<boolean>>;

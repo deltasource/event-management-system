@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Snackbar, Alert } from "@mui/material";
-import ResponseMessageProps from "./ResponseMessageProps";
+import ResponseMessageProps from "../../domain/types/ResponseMessageProps";
 
 /**
  * Component, responsible for presenting an error message within a Snackbar component

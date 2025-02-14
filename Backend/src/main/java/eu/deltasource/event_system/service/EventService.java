@@ -42,8 +42,11 @@ public class EventService {
 
     public String create(CreateEventDto createEventDto) {
         Event event = eventMapper.mapFromTo(createEventDto, Event.class);
+        logMappedEvent(event);
         validateEvent(event);
+        logValidationSuccessful();
         eventRepository.save(event);
+        logger.info("The event is successfully saved in the repository");
         return event.getName();
     }
 
@@ -58,9 +61,9 @@ public class EventService {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
         logger.info("Founded event data: {}", event.toString());
         Event updatedEvent = eventMapper.mapFromTo(createEventDto, Event.class);
-        logger.info("Mapped event data: {}", updatedEvent.toString());
+        logMappedEvent(updatedEvent);
         validateEvent(updatedEvent);
-        logger.info("Validation is successful");
+        logValidationSuccessful();
         updateEventData(event, updatedEvent);
         logger.info("Event with id {} has been successfully updated", id);
     }
@@ -84,5 +87,13 @@ public class EventService {
             }
             throw new ValidationException(stringBuilder.toString());
         }
+    }
+
+    private void logMappedEvent(Event event) {
+        logger.info("Mapped event data: {}", event.toString());
+    }
+
+    private void logValidationSuccessful() {
+        logger.info("Validation is successful");
     }
 }
