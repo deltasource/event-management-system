@@ -9,6 +9,8 @@ import eu.deltasource.event_system.repository.EventRepository;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final Validator validator;
+    private static final Logger logger = LoggerFactory.getLogger(EventService.class);
 
     public EventService(EventRepository eventRepository, EventMapper eventMapper, Validator validator) {
         this.eventRepository = eventRepository;
@@ -51,7 +54,9 @@ public class EventService {
 
     public void updateEvent(UUID id, CreateEventDto createEventDto) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
+        logger.info("Founded event " + event);
         Event updatedEvent = eventMapper.mapFromTo(createEventDto, Event.class);
+        logger.info("Mapped ");
         validateEvent(updatedEvent);
         updateEventData(event, updatedEvent);
     }
