@@ -1,0 +1,28 @@
+{
+  "attendees": [
+    {
+      "id": "3f22be15-9c4f-4d58-a313-84534b2b7de3",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "ticketType": "VIP",
+      "event": null
+    },
+    {
+      "id": "b332b94b-f7f6-4b09-b340-321c2a07f2be",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "email": "jane.smith@example.com",
+      "ticketType": "GENERAL",
+      "event": null
+    },
+    {
+      "id": "9f9b6a9d-b87f-4d06-b6fe-e490b2c8703f",
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "email": "alice.johnson@example.com",
+      "ticketType": "STUDENT",
+      "event": null
+    }
+  ]
+}

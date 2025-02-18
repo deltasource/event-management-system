@@ -1,6 +1,7 @@
 package eu.deltasource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.deltasource.dto.AttendeeListDto;
 import eu.deltasource.dto.EventListDto;
 
 import java.io.IOException;
@@ -11,10 +12,10 @@ import java.util.List;
  * This class is responsible for mapping events between different formats
  * It uses Jackson's ObjectMapper to perform the deserialization and mapping.
  */
-public class EventMapper {
+public class EntityMapper {
     private final ObjectMapper objectMapper;
 
-    public EventMapper(ObjectMapper objectMapper) {
+    public EntityMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
@@ -33,5 +34,12 @@ public class EventMapper {
 
     public <T, G> G mapFromTo(T source, Class<G> targetClass) {
         return objectMapper.convertValue(source, targetClass);
+    }
+
+    public <T> List<T> mapToAttendeeList(InputStream inputStream, Class<T> targetClass) throws IOException {
+        AttendeeListDto attendeeListDto = objectMapper.readValue(inputStream, AttendeeListDto.class);
+        return attendeeListDto.attendees().stream()
+                .map(attendeeDto -> objectMapper.convertValue(attendeeDto, targetClass))
+                .toList();
     }
 }

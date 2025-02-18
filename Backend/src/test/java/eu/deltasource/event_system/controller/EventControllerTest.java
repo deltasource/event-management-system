@@ -5,6 +5,7 @@ import eu.deltasource.dto.EventDto;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
 import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.repository.EventRepository;
+import eu.deltasource.event_system.service.AttendeeService;
 import eu.deltasource.event_system.service.EventService;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,8 @@ public class EventControllerTest {
     private MockMvc mockMvc;
     @MockitoBean
     private EventService eventService;
+    @MockitoBean
+    private AttendeeService attendeeService;
     @Mock
     private EventRepository eventRepository;
 

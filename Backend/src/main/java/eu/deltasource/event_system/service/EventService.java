@@ -1,10 +1,13 @@
 package eu.deltasource.event_system.service;
 
-import eu.deltasource.EventMapper;
+import eu.deltasource.EntityMapper;
 import eu.deltasource.dto.CreateEventDto;
 import eu.deltasource.dto.EventDto;
+import eu.deltasource.event_system.exceptions.AttendeeNotFoundException;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
+import eu.deltasource.event_system.model.Attendee;
 import eu.deltasource.event_system.model.Event;
+import eu.deltasource.event_system.repository.AttendeeRepository;
 import eu.deltasource.event_system.repository.EventRepository;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
@@ -24,24 +27,31 @@ import java.util.UUID;
 @Service
 public class EventService {
     private final EventRepository eventRepository;
-    private final EventMapper eventMapper;
+    private final EntityMapper entityMapper;
     private final Validator validator;
     private final Logger logger = LoggerFactory.getLogger(EventService.class);
+    private final AttendeeRepository attendeeRepository;
 
-    public EventService(EventRepository eventRepository, EventMapper eventMapper, Validator validator) {
+    public EventService(EventRepository eventRepository, EntityMapper entityMapper
+            , Validator validator, AttendeeRepository attendeeRepository) {
         this.eventRepository = eventRepository;
-        this.eventMapper = eventMapper;
+        this.entityMapper
+                = entityMapper
+        ;
         this.validator = validator;
+        this.attendeeRepository = attendeeRepository;
     }
 
     public List<EventDto> getAllEvents() {
         return eventRepository.getAll().stream()
-                .map(e -> eventMapper.mapFromTo(e, EventDto.class))
+                .map(e -> entityMapper
+                        .mapFromTo(e, EventDto.class))
                 .toList();
     }
 
     public String create(CreateEventDto createEventDto) {
-        Event event = eventMapper.mapFromTo(createEventDto, Event.class);
+        Event event = entityMapper
+                .mapFromTo(createEventDto, Event.class);
         logMappedEvent(event);
         validateEvent(event);
         logValidationSuccessful();
@@ -60,7 +70,8 @@ public class EventService {
     public void updateEvent(UUID id, CreateEventDto createEventDto) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
         logger.info("Founded event data: {}", event.toString());
-        Event updatedEvent = eventMapper.mapFromTo(createEventDto, Event.class);
+        Event updatedEvent = entityMapper
+                .mapFromTo(createEventDto, Event.class);
         logMappedEvent(updatedEvent);
         validateEvent(updatedEvent);
         logValidationSuccessful();
@@ -95,5 +106,11 @@ public class EventService {
 
     private void logValidationSuccessful() {
         logger.info("Validation is successful");
+    }
+
+    public void addAttendeeToEvent(UUID eventId, UUID attendeeId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Attendee attendee = attendeeRepository.findById(attendeeId).orElseThrow(() -> new AttendeeNotFoundException(attendeeId));
+        attendee.setEvent(eventId);
     }
 }

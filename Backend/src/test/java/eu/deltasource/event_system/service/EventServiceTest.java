@@ -1,6 +1,6 @@
 package eu.deltasource.event_system.service;
 
-import eu.deltasource.EventMapper;
+import eu.deltasource.EntityMapper;
 import eu.deltasource.dto.CreateEventDto;
 import eu.deltasource.dto.EventDto;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
@@ -31,7 +31,7 @@ public class EventServiceTest {
     @Mock
     private EventRepository eventRepository;
     @Mock
-    private EventMapper eventMapper;
+    private EntityMapper entityMapper;
     @Mock
     private Validator validator;
     @InjectMocks
@@ -45,7 +45,7 @@ public class EventServiceTest {
         List<Event> events = List.of(event);
         when(eventRepository.getAll())
                 .thenReturn(events);
-        when(eventMapper.mapFromTo(any(Event.class), eq(EventDto.class)))
+        when(entityMapper.mapFromTo(any(Event.class), eq(EventDto.class)))
                 .thenReturn(eventViewDto);
 
         //When
@@ -61,7 +61,7 @@ public class EventServiceTest {
         //Given
         CreateEventDto createEventDto = new CreateEventDto("Event", LocalDateTime.now().toString(), "venue", 100, "details", 10);
         Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.parse(createEventDto.dateTime()), "venue", 100, "details", 10);
-        when(eventMapper.mapFromTo(createEventDto, Event.class))
+        when(entityMapper.mapFromTo(createEventDto, Event.class))
                 .thenReturn(event);
         when(validator.validate(event))
                 .thenReturn(Set.of());
@@ -113,7 +113,7 @@ public class EventServiceTest {
         Event updatedEvent = new Event(uuid, "Event1", LocalDateTime.now(), "venue", 100, "details", 10);
         when(eventRepository.findById(uuid))
                 .thenReturn(Optional.of(event));
-        when(eventMapper.mapFromTo(createEventDto, Event.class))
+        when(entityMapper.mapFromTo(createEventDto, Event.class))
                 .thenReturn(updatedEvent);
         lenient().when(validator.validate(updatedEvent))
                 .thenReturn(Set.of());
