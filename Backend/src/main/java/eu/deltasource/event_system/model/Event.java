@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class Event {
@@ -28,11 +29,13 @@ public class Event {
     @NotNull(message = "Ticket price cannot be null.")
     @Positive(message = "Ticket price must be a positive value.")
     private double ticketPrice;
+    @NotNull(message = "Attendees list cannot be null.")
+    private List<UUID> attendees;
 
     public Event() {
     }
 
-    public Event(UUID id, String name, LocalDateTime dateTime, String venue, int maxCapacity, String organizerDetails, double ticketPrice) {
+    public Event(UUID id, String name, LocalDateTime dateTime, String venue, int maxCapacity, String organizerDetails, double ticketPrice, List<UUID> attendees) {
         this.id = id;
         this.name = name;
         this.dateTime = dateTime;
@@ -40,6 +43,7 @@ public class Event {
         this.maxCapacity = maxCapacity;
         this.organizerDetails = organizerDetails;
         this.ticketPrice = ticketPrice;
+        this.attendees = attendees;
     }
 
     public UUID getId() {
@@ -96,6 +100,14 @@ public class Event {
 
     public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
+    }
+
+    public List<UUID> getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(List<UUID> attendees) {
+        this.attendees = attendees;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package eu.deltasource.event_system.utils;
 
-import eu.deltasource.EventMapper;
+import eu.deltasource.EntityMapper;
 import eu.deltasource.event_system.model.Event;
 import eu.deltasource.event_system.repository.EventRepository;
 import org.springframework.core.io.ClassPathResource;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,13 +17,13 @@ import java.util.List;
  * from a .json file, in the in-memory database
  */
 @Component
-public class EventDataLoader {
+public class DataLoader {
     private final EventRepository eventRepository;
-    private final EventMapper eventMapper;
+    private final EntityMapper entityMapper;
 
-    public EventDataLoader(EventRepository eventRepository, EventMapper eventMapper) {
+    public DataLoader(EventRepository eventRepository, EntityMapper entityMapper) {
         this.eventRepository = eventRepository;
-        this.eventMapper = eventMapper;
+        this.entityMapper = entityMapper;
     }
 
     public void loadEvents() throws IOException {
@@ -30,7 +31,10 @@ public class EventDataLoader {
             ClassPathResource resource = new ClassPathResource("static/get-events.json");
             InputStream inputStream = resource.getInputStream();
 
-            List<Event> fetchedEvents = eventMapper.mapToEventList(inputStream, Event.class);
+            List<Event> fetchedEvents = entityMapper.mapToEventList(inputStream, Event.class);
+            fetchedEvents.forEach(
+                    e -> e.setAttendees(new ArrayList<>())
+            );
             fetchedEvents.forEach(eventRepository::save);
         } catch (IOException e) {
             throw new IOException();

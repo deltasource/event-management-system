@@ -1,5 +1,6 @@
 package eu.deltasource.event_system.controller;
 
+import eu.deltasource.dto.AttendeeDto;
 import eu.deltasource.dto.CreateEventDto;
 import eu.deltasource.dto.EventDto;
 import eu.deltasource.event_system.service.EventService;
@@ -40,5 +41,18 @@ public class EventController {
                                          @RequestBody CreateEventDto createEventDto) {
         eventService.updateEvent(id, createEventDto);
         return ResponseEntity.ok("The event is successfully updated!");
+    }
+
+    @GetMapping("/{id}/attendees")
+    public ResponseEntity<List<AttendeeDto>> getAttendees(@PathVariable("id") UUID id) {
+        List<AttendeeDto> attendees = eventService.getAllByEvent(id);
+        return ResponseEntity.ok(attendees);
+    }
+
+    @PostMapping("/{eventId}/register")
+    public ResponseEntity<String> registerAttendee(@PathVariable("eventId") UUID eventId,
+                                                   @RequestBody AttendeeDto attendeeDto) {
+        eventService.addAttendeeToEvent(eventId, attendeeDto);
+        return ResponseEntity.ok("The attendee is successfully added to the event!");
     }
 }

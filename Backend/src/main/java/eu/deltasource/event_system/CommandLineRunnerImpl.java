@@ -1,19 +1,19 @@
 package eu.deltasource.event_system;
 
-import eu.deltasource.event_system.utils.EventDataLoader;
+import eu.deltasource.event_system.utils.DataLoader;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommandLineRunnerImpl implements CommandLineRunner {
-    private final EventDataLoader eventDataLoader;
+    private final DataLoader dataLoader;
 
-    public CommandLineRunnerImpl(EventDataLoader eventDataLoader) {
-        this.eventDataLoader = eventDataLoader;
+    public CommandLineRunnerImpl(DataLoader dataLoader) {
+        this.dataLoader = dataLoader;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        eventDataLoader.loadEvents();
+        dataLoader.loadEvents();
     }
 }

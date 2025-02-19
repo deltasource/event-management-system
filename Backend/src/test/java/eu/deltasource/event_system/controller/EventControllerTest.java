@@ -16,6 +16,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -109,7 +110,7 @@ public class EventControllerTest {
     public void deleteEvent_whenIsFound() throws Exception {
         //Given
         UUID uuid = UUID.randomUUID();
-        Event event = new Event(uuid, "Event", LocalDateTime.now(), "venue", 100, "details", 10);
+        Event event = new Event(uuid, "Event", LocalDateTime.now(), "venue", 100, "details", 10, new ArrayList<>());
         when(eventRepository.findById(uuid))
                 .thenReturn(Optional.of(event));
 

@@ -1,5 +1,5 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.deltasource.EventMapper;
+import eu.deltasource.EntityMapper;
 import eu.deltasource.dto.EventDto;
 import eu.deltasource.dto.EventListDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,16 +21,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-public class EventMapperTest {
+public class EntityMapperTest {
 
     @Mock
     private ObjectMapper objectMapper;
-    private EventMapper eventMapper;
+    private EntityMapper entityMapper;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        eventMapper = new EventMapper(objectMapper);
+        entityMapper = new EntityMapper(objectMapper);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class EventMapperTest {
                 });
 
         //When
-        List<EventDto> events = eventMapper.mapToEventList(inputStream, EventDto.class);
+        List<EventDto> events = entityMapper.mapToEventList(inputStream, EventDto.class);
 
         //Then
         assertEquals(1, events.size());
@@ -76,7 +76,7 @@ public class EventMapperTest {
                 .thenThrow(new IOException());
 
         //When, Then
-        assertThrows(IOException.class, () -> eventMapper.mapToEventList(inputStream, EventDto.class));
+        assertThrows(IOException.class, () -> entityMapper.mapToEventList(inputStream, EventDto.class));
     }
 
     private static InputStream getInputStream(EventDto dto) {

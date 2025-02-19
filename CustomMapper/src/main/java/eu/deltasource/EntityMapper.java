@@ -11,10 +11,10 @@ import java.util.List;
  * This class is responsible for mapping events between different formats
  * It uses Jackson's ObjectMapper to perform the deserialization and mapping.
  */
-public class EventMapper {
+public class EntityMapper {
     private final ObjectMapper objectMapper;
 
-    public EventMapper(ObjectMapper objectMapper) {
+    public EntityMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
