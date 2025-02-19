@@ -21,7 +21,7 @@ public class EventRepositoryTest {
     @Test
     public void saveEvent_whenUUIDIsNotNull() {
         //Given
-        Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10);
+        Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10, new ArrayList<>());
 
         //When
         eventRepository.save(event);
@@ -40,7 +40,7 @@ public class EventRepositoryTest {
     @Test
     public void saveEvent_whenUUIDIsNull() {
         //Given
-        Event event = new Event(null, "Event", LocalDateTime.now(), "venue", 100, "details", 10);
+        Event event = new Event(null, "Event", LocalDateTime.now(), "venue", 100, "details", 10, new ArrayList<>());
 
         //When
         eventRepository.save(event);
@@ -59,7 +59,7 @@ public class EventRepositoryTest {
     @Test
     public void getAllEvents_whenListIsNotEmpty() {
         //Given
-        Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10);
+        Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10, new ArrayList<>());
 
         //When
         eventRepository.save(event);
@@ -73,7 +73,7 @@ public class EventRepositoryTest {
     void findById_returnsEventWhenExists() {
         // Given
         UUID eventId = UUID.randomUUID();
-        Event event = new Event(eventId, "Concert", LocalDateTime.now(), "Stadium", 100, "Organizer", 20.0);
+        Event event = new Event(eventId, "Concert", LocalDateTime.now(), "Stadium", 100, "Organizer", 20.0, new ArrayList<>());
         eventRepository.save(event);
 
         // When
@@ -88,7 +88,7 @@ public class EventRepositoryTest {
     void delete_removesEvent() {
         // Given
         UUID eventId = UUID.randomUUID();
-        Event event = new Event(eventId, "Concert", LocalDateTime.now(), "Stadium", 100, "Organizer", 20.0);
+        Event event = new Event(eventId, "Concert", LocalDateTime.now(), "Stadium", 100, "Organizer", 20.0, new ArrayList<>());
         eventRepository.save(event);
 
         // When

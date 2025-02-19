@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class DataLoaderTest {
     @Test
     public void testInitInMemoryEvents_whenFileIsFound_savesToRepository() throws IOException {
         //Given
-        Event event = new Event(UUID.randomUUID(), "Event", null, "Venue", 100, "Organizer", 20.0);
+        Event event = new Event(UUID.randomUUID(), "Event", null, "Venue", 100, "Organizer", 20.0, new ArrayList<>());
         List<Event> events = List.of(event);
         when(entityMapper.mapToEventList(any(InputStream.class), eq(Event.class)))
                 .thenReturn(events);

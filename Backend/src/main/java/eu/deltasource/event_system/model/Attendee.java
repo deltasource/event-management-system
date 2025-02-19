@@ -20,14 +20,11 @@ public class Attendee {
     private String email;
     @NotNull(message = "Ticket type cannot be null")
     private TicketType ticketType;
-    @NotNull(message = "Event id cannot be null.")
-    private UUID event;
 
-    public Attendee(String firstName, String lastName, String email, UUID event) {
+    public Attendee(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.event = event;
     }
 
     public UUID getId() {
@@ -68,13 +65,5 @@ public class Attendee {
 
     public void setTicketType(TicketType ticketType) {
         this.ticketType = ticketType;
-    }
-
-    public UUID getEvent() {
-        return event;
-    }
-
-    public void setEvent(UUID event) {
-        this.event = event;
     }
 }

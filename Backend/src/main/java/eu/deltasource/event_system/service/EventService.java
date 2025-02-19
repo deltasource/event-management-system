@@ -1,6 +1,7 @@
 package eu.deltasource.event_system.service;
 
 import eu.deltasource.EntityMapper;
+import eu.deltasource.dto.AttendeeDto;
 import eu.deltasource.dto.CreateEventDto;
 import eu.deltasource.dto.EventDto;
 import eu.deltasource.event_system.exceptions.AttendeeNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Service class, responsible for the business logic connected
@@ -108,9 +110,22 @@ public class EventService {
         logger.info("Validation is successful");
     }
 
-    public void addAttendeeToEvent(UUID eventId, UUID attendeeId) {
+    public List<AttendeeDto> getAllByEvent(UUID id) {
+        Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
+        List<UUID> attendeesIds = event.getAttendees();
+        return attendeesIds.stream()
+                .map(attendeeId -> {
+                    Attendee attendee = attendeeRepository.findById(attendeeId)
+                            .orElseThrow(() -> new AttendeeNotFoundException(attendeeId));
+                    return entityMapper.mapFromTo(attendee, AttendeeDto.class);
+                })
+                .collect(Collectors.toList());
+    }
+
+    public void addAttendeeToEvent(UUID eventId, AttendeeDto attendeeDto) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
-        Attendee attendee = attendeeRepository.findById(attendeeId).orElseThrow(() -> new AttendeeNotFoundException(attendeeId));
-        attendee.setEvent(eventId);
+        Attendee attendee = entityMapper.mapFromTo(attendeeDto, Attendee.class);
+        attendeeRepository.save(attendee);
+        event.getAttendees().add(attendee.getId());
     }
 }

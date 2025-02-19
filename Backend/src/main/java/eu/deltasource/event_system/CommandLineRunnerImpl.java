@@ -15,7 +15,5 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         dataLoader.loadEvents();
-        dataLoader.loadAttendees();
-        System.out.println();
     }
 }

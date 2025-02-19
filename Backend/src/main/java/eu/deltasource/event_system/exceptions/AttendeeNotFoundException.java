@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public class AttendeeNotFoundException extends RuntimeException {
     public AttendeeNotFoundException(UUID id) {
-        super("Event with id " + id + " is not found");
+        super("Attendee with id " + id + " is not found");
     }
 }
