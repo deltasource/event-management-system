@@ -20,6 +20,10 @@ You can use the command: 'mvn clean install'.
 This will clean up any previous builds, download all required dependencies,
 and package the project into an executable .jar file.
 
+## PostgreSQL (Required)
+PostgreSQL is used as the database for this application. Make sure you have PostgreSQL installed and running on your machine.
+The PostgreSQL server for this project is running on port 7777. 
+
 Build the Customer Mapper project:
 
 ```bash
