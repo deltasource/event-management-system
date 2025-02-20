@@ -1,6 +1,6 @@
 package eu.deltasource.event_system.model;
 
-
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -9,33 +9,43 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Table(name = "events")
 public class Event {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(nullable = false)
     @NotNull(message = "Event name cannot be null.")
     @Size(min = 2, max = 40, message = "Event name must be between 2 and 40 characters.")
     private String name;
+    @Column(nullable = false)
     @NotNull(message = "Event date and time cannot be null.")
     private LocalDateTime dateTime;
+    @Column(nullable = false)
     @NotNull(message = "Venue cannot be null.")
     @Size(min = 2, max = 40, message = "Venue name must be between 2 and 40 characters.")
     private String venue;
+    @Column(nullable = false)
     @NotNull(message = "Maximum capacity cannot be null.")
     @Positive(message = "Maximum capacity must be a positive number.")
     private int maxCapacity;
+    @Column(nullable = false)
     @NotNull(message = "Organizer details cannot be null.")
     @Size(min = 2, max = 40, message = "Organizer details must be between 2 and 40 characters.")
     private String organizerDetails;
+    @Column(nullable = false)
     @NotNull(message = "Ticket price cannot be null.")
     @Positive(message = "Ticket price must be a positive value.")
     private double ticketPrice;
-    @NotNull(message = "Attendees list cannot be null.")
-    private List<UUID> attendees;
+    @OneToMany(mappedBy = "event")
+    private List<Attendee> attendees;
 
     public Event() {
     }
 
-    public Event(UUID id, String name, LocalDateTime dateTime, String venue, int maxCapacity, String organizerDetails, double ticketPrice, List<UUID> attendees) {
+    public Event(UUID id, String name, LocalDateTime dateTime, String venue, int maxCapacity, String organizerDetails, double ticketPrice, List<Attendee> attendees) {
         this.id = id;
         this.name = name;
         this.dateTime = dateTime;
@@ -102,11 +112,11 @@ public class Event {
         this.ticketPrice = ticketPrice;
     }
 
-    public List<UUID> getAttendees() {
+    public List<Attendee> getAttendees() {
         return attendees;
     }
 
-    public void setAttendees(List<UUID> attendees) {
+    public void setAttendees(List<Attendee> attendees) {
         this.attendees = attendees;
     }
 

@@ -4,7 +4,6 @@ import eu.deltasource.EntityMapper;
 import eu.deltasource.dto.AttendeeDto;
 import eu.deltasource.dto.CreateEventDto;
 import eu.deltasource.dto.EventDto;
-import eu.deltasource.event_system.exceptions.AttendeeNotFoundException;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
 import eu.deltasource.event_system.model.Attendee;
 import eu.deltasource.event_system.model.Event;
@@ -17,10 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Service class, responsible for the business logic connected
@@ -45,7 +44,7 @@ public class EventService {
     }
 
     public List<EventDto> getAllEvents() {
-        return eventRepository.getAll().stream()
+        return eventRepository.findAll().stream()
                 .map(e -> entityMapper
                         .mapFromTo(e, EventDto.class))
                 .toList();
@@ -65,29 +64,28 @@ public class EventService {
     public void delete(UUID id) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
         logger.info("Event with id: {}  is founded", id);
+        attendeeRepository.deleteAll(event.getAttendees());
         eventRepository.delete(event);
         logger.info("Event with id: {} is successfully deleted", id);
     }
 
     public void updateEvent(UUID id, CreateEventDto createEventDto) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
-        logger.info("Founded event data: {}", event.toString());
-        Event updatedEvent = entityMapper
-                .mapFromTo(createEventDto, Event.class);
-        logMappedEvent(updatedEvent);
-        validateEvent(updatedEvent);
-        logValidationSuccessful();
-        updateEventData(event, updatedEvent);
+        logger.info("Found event data: {}", event);
+        updateEvent(createEventDto, event);
+        validateEvent(event);
+        logger.info("Validation successful for event id: {}", id);
+        eventRepository.save(event);
         logger.info("Event with id {} has been successfully updated", id);
     }
 
-    private void updateEventData(Event event, Event updatedEvent) {
-        event.setName(updatedEvent.getName());
-        event.setDateTime(updatedEvent.getDateTime());
-        event.setVenue(updatedEvent.getVenue());
-        event.setMaxCapacity(updatedEvent.getMaxCapacity());
-        event.setOrganizerDetails(updatedEvent.getOrganizerDetails());
-        event.setTicketPrice(updatedEvent.getTicketPrice());
+    private static void updateEvent(CreateEventDto createEventDto, Event event) {
+        event.setName(createEventDto.name());
+        event.setDateTime(LocalDateTime.parse(createEventDto.dateTime()));
+        event.setVenue(createEventDto.venue());
+        event.setMaxCapacity(createEventDto.maxCapacity());
+        event.setOrganizerDetails(createEventDto.organizerDetails());
+        event.setTicketPrice(createEventDto.ticketPrice());
     }
 
     private void validateEvent(Event event) {
@@ -112,20 +110,18 @@ public class EventService {
 
     public List<AttendeeDto> getAllByEvent(UUID id) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
-        List<UUID> attendeesIds = event.getAttendees();
-        return attendeesIds.stream()
-                .map(attendeeId -> {
-                    Attendee attendee = attendeeRepository.findById(attendeeId)
-                            .orElseThrow(() -> new AttendeeNotFoundException(attendeeId));
-                    return entityMapper.mapFromTo(attendee, AttendeeDto.class);
-                })
-                .collect(Collectors.toList());
+        List<Attendee> attendees = event.getAttendees();
+        return attendees.stream()
+                .map(attendee -> entityMapper.mapFromTo(attendee, AttendeeDto.class)
+                ).toList();
     }
 
     public void addAttendeeToEvent(UUID eventId, AttendeeDto attendeeDto) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
         Attendee attendee = entityMapper.mapFromTo(attendeeDto, Attendee.class);
+        attendee.setEvent(event);
         attendeeRepository.save(attendee);
-        event.getAttendees().add(attendee.getId());
+        event.getAttendees().add(attendee);
+        eventRepository.save(event);
     }
 }

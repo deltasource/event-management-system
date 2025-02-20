@@ -5,6 +5,7 @@ import eu.deltasource.dto.CreateEventDto;
 import eu.deltasource.dto.EventDto;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
 import eu.deltasource.event_system.model.Event;
+import eu.deltasource.event_system.repository.AttendeeRepository;
 import eu.deltasource.event_system.repository.EventRepository;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,8 @@ public class EventServiceTest {
     @Mock
     private EventRepository eventRepository;
     @Mock
+    private AttendeeRepository attendeeRepository;
+    @Mock
     private EntityMapper entityMapper;
     @Mock
     private Validator validator;
@@ -40,7 +43,7 @@ public class EventServiceTest {
         Event event = new Event(UUID.randomUUID(), "Event", LocalDateTime.now(), "venue", 100, "details", 10, new ArrayList<>());
         EventDto eventViewDto = new EventDto(event.getId(), event.getName(), event.getVenue(), event.getDateTime().toString(), event.getMaxCapacity(), event.getOrganizerDetails(), event.getTicketPrice());
         List<Event> events = List.of(event);
-        when(eventRepository.getAll())
+        when(eventRepository.findAll())
                 .thenReturn(events);
         when(entityMapper.mapFromTo(any(Event.class), eq(EventDto.class)))
                 .thenReturn(eventViewDto);
@@ -86,6 +89,7 @@ public class EventServiceTest {
 
         //Then
         verify(eventRepository, times(1)).delete(event);
+        verify(attendeeRepository, times(1)).deleteAll(event.getAttendees());
     }
 
     @Test
@@ -103,26 +107,28 @@ public class EventServiceTest {
 
     @Test
     public void updateEventSuccessfully() {
-        //Given
+        // Given
         UUID uuid = UUID.randomUUID();
-        CreateEventDto createEventDto = new CreateEventDto("Event", LocalDateTime.now().toString(), "venue", 100, "details", 10);
+        CreateEventDto createEventDto = new CreateEventDto("Event1", LocalDateTime.now().toString(), "venue", 100, "details", 10);
         Event event = new Event(uuid, "Event", LocalDateTime.now(), "venue", 100, "details", 10, new ArrayList<>());
         Event updatedEvent = new Event(uuid, "Event1", LocalDateTime.now(), "venue", 100, "details", 10, new ArrayList<>());
         when(eventRepository.findById(uuid))
                 .thenReturn(Optional.of(event));
-        when(entityMapper.mapFromTo(createEventDto, Event.class))
+        lenient().when(entityMapper.mapFromTo(createEventDto, Event.class))
                 .thenReturn(updatedEvent);
         lenient().when(validator.validate(updatedEvent))
                 .thenReturn(Set.of());
 
-        //When
+        // When
         eventService.updateEvent(uuid, createEventDto);
 
-        //Then
-        assertEquals(event.getName(), updatedEvent.getName());
-        assertEquals(event.getMaxCapacity(), updatedEvent.getMaxCapacity());
-        assertEquals(event.getVenue(), updatedEvent.getVenue());
-        assertEquals(event.getDateTime(), updatedEvent.getDateTime());
-        assertEquals(event.getOrganizerDetails(), updatedEvent.getOrganizerDetails());
+        // Then
+        assertEquals(createEventDto.name(), event.getName());
+        assertEquals(createEventDto.maxCapacity(), event.getMaxCapacity());
+        assertEquals(createEventDto.venue(), event.getVenue());
+        assertEquals(LocalDateTime.parse(createEventDto.dateTime()), event.getDateTime());
+        assertEquals(createEventDto.organizerDetails(), event.getOrganizerDetails());
+        verify(eventRepository, times(1)).save(event);
     }
+
 }
