@@ -12,13 +12,13 @@ import java.util.UUID;
 
 public class EventGenerator {
     private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final String FILE_PATH = "src/main/resources/Events.json";
+    private static final String FILE_PATH = "/Users/antonveselinovurdzhanov/event-management-system-develop/Backend/src/main/resources/static/get-events.json";
 
     public static void main(String[] args) {
         try {
             String jsonTemplate = new String(Files.readAllBytes(Paths.get(FILE_PATH)));
             JsonNode jsonNode = objectMapper.readTree(jsonTemplate);
-            int count = 3_0; // Example: Generate 3M records
+            int count = 3_00;
 
             List<Map<String, Object>> events = new ArrayList<>();
 

@@ -1,6 +1,10 @@
 import { Button } from "@mui/material";
 interface ConfirmationElementProps {
-  onConfirm: () => void;
+  title: string;
+  icon: string;
+  cancelColor: "error" | "primary" | "secondary";
+  confirmColor: "error" | "primary" | "secondary" | "success";
+  onConfirm: (data: any) => void;
   onCancel: () => void;
 }
 
@@ -11,6 +15,10 @@ const warningIconStyle: React.CSSProperties = {
 };
 
 export default function ConfirmationElement({
+  title,
+  icon,
+  confirmColor,
+  cancelColor,
   onConfirm,
   onCancel,
 }: ConfirmationElementProps) {
@@ -18,20 +26,20 @@ export default function ConfirmationElement({
     <div>
       <div className="d-flex">
         <span role="img" aria-label="warning" style={warningIconStyle}>
-          ⚠️
+          {icon}
         </span>
-        <h3>Are you sure you want to delete this event?</h3>
+        <h3>{title}</h3>
       </div>
       <div>
         <Button
           variant="contained"
-          color="primary"
+          color={cancelColor}
           onClick={onCancel}
           sx={{ marginRight: 2 }}
         >
           Cancel
         </Button>
-        <Button variant="contained" color="error" onClick={onConfirm}>
+        <Button variant="contained" color={confirmColor} onClick={onConfirm}>
           Confirm
         </Button>
       </div>
