@@ -4,14 +4,14 @@ import * as eventService from "../../service/EventService.tsx";
 import PopupElement from "../common/Popup.tsx";
 import EventForm from "./EventForm.tsx";
 import ConfirmationElement from "../common/ConfirmationElement.tsx";
-import { EventDetailsProps } from "../../domain/types/EventDetailsProps.tsx";
+import { EventComponentProps } from "../../domain/types/EventComponentProps.tsx";
 
 export default function EventDetails({
   event,
   setResponse,
   setOpenPopup,
   fetchEvents,
-}: EventDetailsProps) {
+}: EventComponentProps) {
   const [openUpdatePopup, setOpenUpdatePopup] = useState(false);
   const [deleteConfirmationPopup, setDeleteConfirmationPopup] = useState(false);
 
@@ -91,6 +91,10 @@ export default function EventDetails({
             setOpen={setDeleteConfirmationPopup}
           >
             <ConfirmationElement
+              title="Are you sure you want to delete this event?"
+              icon="⚠️"
+              confirmColor="error"
+              cancelColor="primary"
               onCancel={handleCancelDelete}
               onConfirm={handleConfirmedDelete}
             />

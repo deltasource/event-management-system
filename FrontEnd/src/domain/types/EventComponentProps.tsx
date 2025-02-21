@@ -1,6 +1,6 @@
-import Event from "../../domain/models/Event.tsx";
+import Event from "../models/Event.tsx";
 
-export interface EventDetailsProps {
+export interface EventComponentProps {
   event: Event | null;
   setResponse: (message: string, severity: "success" | "error") => void;
   setOpenPopup: React.Dispatch<React.SetStateAction<boolean>>;

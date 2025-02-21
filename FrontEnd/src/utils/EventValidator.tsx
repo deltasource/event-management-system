@@ -15,7 +15,7 @@ export function EventValidator(state: CreateEventState) {
   if (!name) {
     errors.name = "Event name is required.";
     isValid = false;
-  } else if (name.length <= 2) {
+  } else if (name.length < 2) {
     errors.name = "Event name must be longer than 2 characters.";
     isValid = false;
   }
