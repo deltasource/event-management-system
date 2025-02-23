@@ -45,7 +45,7 @@ database when the project is started.
  * from a .json file, in the in-memory database
  */
 @Component
-public class EventDataLoader
+public class EventDataLoader {}
 ```
 ## 4. Data transfer between controller and service should only be done using DTOs
 Data should never be passed directly between the controller and service using entities.
