@@ -18,14 +18,14 @@ public class Event {
     private UUID id;
     @Column(nullable = false)
     @NotNull(message = "Event name cannot be null.")
-    @Size(min = 2, max = 40, message = "Event name must be between 2 and 40 characters.")
+    @Size(min = 2, max = 60, message = "Event name must be between 2 and 60 characters.")
     private String name;
     @Column(nullable = false)
     @NotNull(message = "Event date and time cannot be null.")
     private LocalDateTime dateTime;
     @Column(nullable = false)
     @NotNull(message = "Venue cannot be null.")
-    @Size(min = 2, max = 40, message = "Venue name must be between 2 and 40 characters.")
+    @Size(min = 2, max = 60, message = "Venue name must be between 2 and 60 characters.")
     private String venue;
     @Column(nullable = false)
     @NotNull(message = "Maximum capacity cannot be null.")
