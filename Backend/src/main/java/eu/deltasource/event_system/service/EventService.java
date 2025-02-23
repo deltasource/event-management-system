@@ -15,6 +15,8 @@ import jakarta.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -67,8 +69,9 @@ public class EventService {
         logger.info("Event with id: {} is successfully deleted", id);
     }
 
+    @Transactional
     public void updateEvent(UUID id, CreateEventDto createEventDto) {
-        Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
+        Event event = eventRepository.findByIdForUpdate(id);  // LOCK the row
         logger.info("Found event data: {}", event);
         updateEvent(createEventDto, event);
         validateEvent(event);
