@@ -45,7 +45,7 @@ database when the project is started.
  * from a .json file, in the in-memory database
  */
 @Component
-public class EventDataLoader
+public class EventDataLoader{}
 ```
 ## 4. Data transfer between controller and service should only be done using DTOs
 Data should never be passed directly between the controller and service using entities.
@@ -68,4 +68,22 @@ public List<EventViewDto> showAllEvents() {
 }
 ```
 
+## 4. Log responses in EventService methods
+For every method in the EventService class, it is required to log the response that is being returned or the outcome of the method's execution.
+This is to ensure that the application’s behavior can be traced and monitored effectively, especially in production environments. 
+Logging responses helps in tracking the flow of data and identifying issues promptly.
+
+Example: Logging info in event creation method where the mapped event data is logged.
+The second log statement occurs after the event has been validated and saved in the repository.
+```java
+public String create(CreateEventDto createEventDto) {
+        Event event = entityMapper
+                .mapFromTo(createEventDto, Event.class);
+        logger.info("Mapped event: {}", event);
+        validateEvent(event);
+        eventRepository.save(event);
+        logger.info("The event is successfully saved in the repository");
+        return event.getName();
+    }
+```
 

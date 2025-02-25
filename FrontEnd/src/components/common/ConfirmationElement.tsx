@@ -1,12 +1,5 @@
 import { Button } from "@mui/material";
-interface ConfirmationElementProps {
-  title: string;
-  icon: string;
-  cancelColor: "error" | "primary" | "secondary";
-  confirmColor: "error" | "primary" | "secondary" | "success";
-  onConfirm: (data: any) => void;
-  onCancel: () => void;
-}
+import { ConfirmationElementProps } from "../../domain/types/ConfirmationElementPorps";
 
 const warningIconStyle: React.CSSProperties = {
   fontSize: "25px",

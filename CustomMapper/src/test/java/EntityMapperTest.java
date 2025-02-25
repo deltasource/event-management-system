@@ -50,7 +50,7 @@ public class EntityMapperTest {
         when(objectMapper.convertValue(any(), eq(EventDto.class)))
                 .thenAnswer(invocation -> {
                     EventDto dto = invocation.getArgument(0);
-                    return new EventDto(dto.id(), dto.name(), dto.dateTime(), dto.venue(), dto.maxCapacity(), dto.organizerDetails(), dto.ticketPrice());
+                    return new EventDto(dto.getId(), dto.getName(), dto.getDateTime(), dto.getVenue(), dto.getMaxCapacity(), dto.getOrganizerDetails(), dto.getTicketPrice());
                 });
 
         //When
@@ -58,13 +58,13 @@ public class EntityMapperTest {
 
         //Then
         assertEquals(1, events.size());
-        assertEquals(eventDto.id(), events.getFirst().id());
-        assertEquals(eventDto.name(), events.getFirst().name());
-        assertEquals(eventDto.dateTime(), events.getFirst().dateTime());
-        assertEquals(eventDto.venue(), events.getFirst().venue());
-        assertEquals(eventDto.maxCapacity(), events.getFirst().maxCapacity());
-        assertEquals(eventDto.organizerDetails(), events.getFirst().organizerDetails());
-        assertEquals(eventDto.ticketPrice(), events.getFirst().ticketPrice());
+        assertEquals(eventDto.getId(), events.getFirst().getId());
+        assertEquals(eventDto.getName(), events.getFirst().getName());
+        assertEquals(eventDto.getDateTime(), events.getFirst().getDateTime());
+        assertEquals(eventDto.getVenue(), events.getFirst().getVenue());
+        assertEquals(eventDto.getMaxCapacity(), events.getFirst().getMaxCapacity());
+        assertEquals(eventDto.getOrganizerDetails(), events.getFirst().getOrganizerDetails());
+        assertEquals(eventDto.getTicketPrice(), events.getFirst().getTicketPrice());
     }
 
     @Test
@@ -81,13 +81,13 @@ public class EntityMapperTest {
 
     private static InputStream getInputStream(EventDto dto) {
         String json = "{ \"events\": [ { " +
-                "\"id\": \"" + dto.id() + "\", " +
-                "\"name\": \"" + dto.name() + "\", " +
-                "\"dateTime\": \"" + dto.dateTime() + "\", " +
-                "\"venue\": \"" + dto.venue() + "\", " +
-                "\"maxCapacity\": " + dto.maxCapacity() + ", " +
-                "\"organizerDetails\": \"" + dto.organizerDetails() + "\", " +
-                "\"ticketPrice\": " + dto.ticketPrice() + " " +
+                "\"id\": \"" + dto.getId() + "\", " +
+                "\"name\": \"" + dto.getName() + "\", " +
+                "\"dateTime\": \"" + dto.getDateTime() + "\", " +
+                "\"venue\": \"" + dto.getVenue() + "\", " +
+                "\"maxCapacity\": " + dto.getMaxCapacity() + ", " +
+                "\"organizerDetails\": \"" + dto.getOrganizerDetails() + "\", " +
+                "\"ticketPrice\": " + dto.getTicketPrice() + " " +
                 "} ] }";
         return new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
     }
