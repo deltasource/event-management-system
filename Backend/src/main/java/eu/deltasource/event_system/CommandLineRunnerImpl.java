@@ -39,7 +39,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
      */
     @Override
     public void run(String... args) {
-        int count = 3_000; // Generate 3M events
+        int count = 5;
 
         System.out.println("Starting process");
         long startTime = System.nanoTime();
@@ -51,7 +51,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
                 System.out.println((i + 1) / 1_000_000 + " million events saved...");
             }
             if ((i + 1) % 10_000 == 0) {
-                System.out.println((i+1) / 10_000 + "0 thousand events created");
+                System.out.println((i + 1) / 10_000 + "0 thousand events created");
             }
         }
         long endTime = System.nanoTime(); // End timing

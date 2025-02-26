@@ -4,6 +4,7 @@ import eu.deltasource.EntityMapper;
 import eu.deltasource.dto.AttendeeDto;
 import eu.deltasource.dto.CreateEventDto;
 import eu.deltasource.dto.EventDto;
+import eu.deltasource.event_system.exceptions.EventMappingException;
 import eu.deltasource.event_system.exceptions.EventNotFoundException;
 import eu.deltasource.event_system.model.Attendee;
 import eu.deltasource.event_system.model.Event;
@@ -16,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -36,23 +37,25 @@ public class EventService {
     public EventService(EventRepository eventRepository, EntityMapper entityMapper
             , Validator validator, AttendeeRepository attendeeRepository) {
         this.eventRepository = eventRepository;
-        this.entityMapper
-                = entityMapper
-        ;
+        this.entityMapper = entityMapper;
         this.validator = validator;
         this.attendeeRepository = attendeeRepository;
     }
 
     public List<EventDto> getAllEvents() {
         return eventRepository.findAll().stream()
-                .map(e -> entityMapper
-                        .mapFromTo(e, EventDto.class))
+                .map(e -> {
+                    EventDto eventDto = entityMapper.mapFromTo(e, EventDto.class);
+                    eventDto.setTicketPrice(formatPrice(eventDto));
+                    return eventDto;
+                })
                 .toList();
     }
 
     public String create(CreateEventDto createEventDto) {
         Event event = entityMapper
                 .mapFromTo(createEventDto, Event.class);
+        logger.info("Mapped event: {}", event);
         validateEvent(event);
         eventRepository.save(event);
         logger.info("The event is successfully saved in the repository");
@@ -70,25 +73,19 @@ public class EventService {
     public void updateEvent(UUID id, CreateEventDto createEventDto) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
         logger.info("Found event data: {}", event);
-        updateEvent(createEventDto, event);
+        try {
+            event = entityMapper.mapFromTo(createEventDto, event);
+        } catch (IOException e) {
+            throw new EventMappingException();
+        }
         validateEvent(event);
         logger.info("Validation successful for event id: {}", id);
         eventRepository.save(event);
         logger.info("Event with id {} has been successfully updated", id);
     }
 
-    private void updateEvent(CreateEventDto createEventDto, Event event) {
-        event.setName(createEventDto.name());
-        event.setDateTime(LocalDateTime.parse(createEventDto.dateTime()));
-        event.setVenue(createEventDto.venue());
-        event.setMaxCapacity(createEventDto.maxCapacity());
-        event.setOrganizerDetails(createEventDto.organizerDetails());
-        event.setTicketPrice(createEventDto.ticketPrice());
-    }
-
     private void validateEvent(Event event) {
         Set<ConstraintViolation<Event>> violations = validator.validate(event);
-
         if (!violations.isEmpty()) {
             StringBuilder stringBuilder = new StringBuilder();
             for (ConstraintViolation<Event> violation : violations) {
@@ -108,10 +105,18 @@ public class EventService {
 
     public void addAttendeeToEvent(UUID eventId, AttendeeDto attendeeDto) {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        logger.info("Attempting to add attendee to event with ID: {}", eventId);
         Attendee attendee = entityMapper.mapFromTo(attendeeDto, Attendee.class);
+        logger.debug("Mapped AttendeeDto to Attendee entity: {}", attendee);
         attendee.setEvent(event);
         attendeeRepository.save(attendee);
+        logger.info("Attendee with ID: {} has been added to the database", attendee.getId());
         event.getAttendees().add(attendee);
         eventRepository.save(event);
+        logger.info("Event with ID: {} has been updated with the new attendee", eventId);
+    }
+
+    private static double formatPrice(EventDto eventDto) {
+        return Math.round(eventDto.getTicketPrice() * 100) / 100.0;
     }
 }

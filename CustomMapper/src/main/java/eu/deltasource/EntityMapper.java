@@ -1,5 +1,6 @@
 package eu.deltasource;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.deltasource.dto.EventListDto;
 
@@ -33,5 +34,9 @@ public class EntityMapper {
 
     public <T, G> G mapFromTo(T source, Class<G> targetClass) {
         return objectMapper.convertValue(source, targetClass);
+    }
+
+    public <T, G> G mapFromTo(T source, G target) throws IOException {
+        return objectMapper.readerForUpdating(target).readValue((JsonNode) objectMapper.valueToTree(source));
     }
 }

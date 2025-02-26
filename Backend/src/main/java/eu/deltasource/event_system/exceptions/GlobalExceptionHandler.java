@@ -25,4 +25,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleAttendeeNotFound(AttendeeNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+
+    @ExceptionHandler(EventMappingException.class)
+    public ResponseEntity<String> handleEventMappingException(EventMappingException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
 }
