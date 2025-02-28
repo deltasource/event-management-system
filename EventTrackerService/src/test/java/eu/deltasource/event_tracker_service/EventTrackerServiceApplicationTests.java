@@ -9,5 +9,4 @@ class EventTrackerServiceApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
