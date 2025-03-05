@@ -126,3 +126,6 @@ Backend/.DS_Store
 
 # Windows system files
 Backend/Thumbs.db
+
+EventTrackerService/mvnw.cmd
+EventTrackerService/mvnw
