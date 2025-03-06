@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +44,7 @@ public class Event {
     private List<Attendee> attendees;
 
     public Event() {
+        attendees = new ArrayList<>();
     }
 
     public Event(UUID id, String name, LocalDateTime dateTime, String venue, int maxCapacity, String organizerDetails, double ticketPrice, List<Attendee> attendees) {

@@ -65,7 +65,11 @@ public class EventService {
     public void delete(UUID id) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException(id));
         logger.info("Event with id: {}  is founded", id);
-        attendeeRepository.deleteAll(event.getAttendees());
+        if (event.getAttendees() != null && !event.getAttendees().isEmpty()) {
+            attendeeRepository.deleteAll(event.getAttendees());
+        } else {
+            logger.warn("No attendees found for event with id: {}", id);
+        }
         eventRepository.delete(event);
         logger.info("Event with id: {} is successfully deleted", id);
     }
